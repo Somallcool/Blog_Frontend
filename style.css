@@ -1,0 +1,48 @@
+/* 기본 스타일 초기화 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* 툴 바 전체 스타일 */
+.navbar {
+    background-color: #333; /* 배경색: 어두운 회색 */
+    color: white; /* 글자색: 흰색 */
+    padding: 15px 20px; /* 위아래, 좌우 여백 */
+    display: flex; /* 내부 요소들을 가로로 나란히 배치 */
+    justify-content: space-between; /* 양 끝에 요소 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+/* 로고 스타일 */
+.nav-logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 링크 목록 스타일 */
+.nav-links {
+    list-style: none; /* 리스트 앞에 점 없애기 */
+    margin: 0;
+    padding: 0;
+    display: flex; /* 내부 요소들을 가로로 나란히 배치 */
+}
+
+/* 개별 링크 항목 스타일 */
+.nav-links li {
+    margin-left: 20px; /* 각 항목 사이 간격 */
+}
+
+/* 링크 텍스트 스타일 */
+.nav-links a {
+    color: white; /* 글자색: 흰색 */
+    text-decoration: none; /* 밑줄 없애기 */
+    padding: 5px 10px; /* 버튼처럼 보이게 여백 추가 */
+    transition: background-color 0.3s; /* 색상 변경 시 부드럽게 */
+}
+
+/* 링크 위에 마우스를 올렸을 때 스타일 */
+.nav-links a:hover {
+    background-color: #555; /* 배경색을 약간 더 어둡게 변경 */
+    border-radius: 4px; /* 모서리를 둥글게 */
+}
