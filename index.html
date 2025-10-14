@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>메인 화면</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
 <body>
     <nav class="navbar">
@@ -16,5 +18,22 @@
         </ul>
     </nav>
     <h1>여기에 웹사이트 내용이 들어갑니다.</h1>
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-2xl">
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h1 class="text-3xl font-extrabold text-gray-900">게시물 목록</h1>
+            <a href="./board/write.html" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200">
+                + 새 글 작성
+            </a>
+        </div>
+        
+        <!-- 게시물 목록이 여기에 렌더링됩니다. (board.js가 채울 영역) -->
+        <div id="board-list-container" class="space-y-3">
+            <p class="text-center text-gray-500" id="loadingMessage">게시물을 불러오는 중...</p>
+        </div>
+
+        <div id="errorMessage" class="hidden mt-4 text-center text-red-600 font-medium"></div>
+
+    </div>
+    <script type="module" src="./board/list.js"></script>
 </body>
 </html>
