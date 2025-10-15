@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding-top: 50px; }
+        .container { background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; }
+        h1 { font-size: 1.8rem; color: #333; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        input[type="text"], textarea, select { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; transition: border-color 0.3s; }
+        input[type="text"]:focus, textarea:focus, select:focus { border-color: #4f46e5; outline: none; }
+        textarea { resize: vertical; min-height: 200px; }
+        .form-group { margin-bottom: 20px; }
+        .btn-submit { background-color: #4f46e5; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s; width: 100%; }
+        .btn-submit:hover { background-color: #4338ca; }
+    </style>
+    <script  type="module" src="/board/write.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>새 게시글 작성</h1>
+        
+        <!-- form의 name 속성이 DTO 필드명과 일치해야 합니다. (title, content, author, category, img) -->
+        <form id="board-write-form" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" required placeholder="게시글 제목을 입력하세요">
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">작성자</label>
+                <input type="text" id="nickname" name="nickname" required placeholder="작성자를 입력하세요">
+            </div>
+
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <select id="category" name="category" required>
+                    <option value="">-- 선택 --</option>
+                    <option value="FREE">자유 게시판</option>
+                    <option value="NOTICE">공지 사항</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" name="content" rows="10" required placeholder="게시글 내용을 입력하세요"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="img">이미지 파일</label>
+                <!-- DTO의 MultipartFile img 필드와 name="img"가 일치해야 합니다. -->
+                <input type="file" id="img" name="img" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn-submit">작성 완료</button>
+        </form>
+    </div>
+
+    <!-- write.js 파일을 모듈 타입으로 로드 -->
+   
+</body>
+</html>
