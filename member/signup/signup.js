@@ -1,5 +1,5 @@
 const SIGNUP_ENDPOINT = '/member';
-
+const API_BASE_URL = 'http://localhost:8000/api/v1'; 
 const signupForm = document.getElementById('signup-form');
 const statusDiv = document.getElementById('status');
 
