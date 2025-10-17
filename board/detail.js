@@ -116,26 +116,46 @@ function bindBoardData(board) {
         contentElement.innerHTML = board.content || '<p class="text-gray-400">내용 없음</p>';
     }
 
-    // 파일 정보 바인딩
+    // 파일 관련 DOM 요소
     const fileInfoDiv = document.getElementById('file-info');
-    
+    const imageDisplayArea = document.getElementById('image-display-area');
+    const boardImage = document.getElementById('board-image');
+
+    // 기본적으로 이미지 미리보기 영역은 숨깁니다.
+    imageDisplayArea.classList.add('hidden');
+
     // 파일이 첨부되었는지 확인
-    if (board.filePath && board.fileOriginalName && board.fileSize !== undefined) {
+    if (board.filePath && board.fileOriginalName) { 
         // 파일 정보가 있을 경우의 스타일 적용
         fileInfoDiv.classList.remove('bg-gray-100', 'text-sm', 'text-gray-700'); 
         fileInfoDiv.classList.add('p-4', 'bg-blue-50', 'border', 'border-blue-200');
+        
+        // 파일 확장자 확인 (png 추가)
+        const fileExtension = board.fileOriginalName.split('.').pop().toLowerCase();
+        const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension);
 
-        // JS에서 동적으로 HTML 생성 및 삽입
+        // 1. 파일 다운로드 링크 정보 (이미지 여부와 상관없이 항상 표시)
         fileInfoDiv.innerHTML = `
             <div class="flex justify-between items-center">
                 <span class="font-semibold text-blue-700">첨부 파일: </span>
                 <a href="${board.filePath}" target="_blank" 
-                   class="text-blue-500 hover:text-blue-700 hover:underline transition">
+                    class="text-blue-500 hover:text-blue-700 hover:underline transition">
                     ${board.fileOriginalName} 
                     <span class="text-xs text-gray-500 ml-2">(${formatBytes(board.fileSize)})</span>
                 </a>
             </div>
         `;
+
+        // 2. 이미지 미리보기 (이미지인 경우에만 표시)
+        if (isImage) {
+            if (boardImage) {
+                boardImage.src = board.filePath;
+                boardImage.alt = board.fileOriginalName;
+            }
+            // 이미지 미리보기 영역을 보여줍니다.
+            imageDisplayArea.classList.remove('hidden');
+        }
+
     } else {
         // 파일 정보가 없을 경우의 스타일 적용
         fileInfoDiv.classList.remove('p-4', 'bg-blue-50', 'border', 'border-blue-200');
