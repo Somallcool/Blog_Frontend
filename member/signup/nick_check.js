@@ -6,7 +6,7 @@ let isNickAvailable = false;
 
 nickCheckButton.addEventListener('click', async function(){
     const nick = nickValue.value;
-    const nickRegex = /^.{2,8}$/;
+    const nickRegex = /^.{2,12}$/;
 
     if (!nickRegex.test(nick)) {
         alert('닉네임은 2자 ~ 8자 이하로 입력해주세요.');

@@ -14,7 +14,7 @@ signupForm.addEventListener('submit', async function(event) {
         username: document.getElementById('username').value, 
         password: document.getElementById('password').value,
         nickname: document.getElementById('nickname').value,
-        email: document.getElementById('email').value,
+        email: document.getElementById('email_combined').value,
     };
     try {
         // 2. 최종 URL 조합 및 패치 요청

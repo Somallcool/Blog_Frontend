@@ -1,29 +1,47 @@
-/* signup.css (새로운 CSS) */
+/* signup.css (클린 UI 및 튀어나옴 문제 해결) */
+
+/* signup.css */
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f6;
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-    min-height: 100vh;
+    font-family: 'Malgun Gothic', 'Arial', sans-serif;
+    background-color: #f0f3f6;
+    
+    /* ✅ 네비게이션 바와 폼을 수직으로 쌓기 위해 flex 컨테이너로 설정 */
+    display: flex; 
+    flex-direction: column; /* 자식 요소들을 위에서 아래로 정렬 */
+    
+    /* 🚨 수직 중앙 정렬 속성 제거 (네비게이션 바가 상단에 붙도록) */
+    /* justify-content: center; */
+    /* align-items: center; */
+    
+    min-height: 100vh; /* 화면 전체 높이 사용 */
     margin: 0;
 }
 
-/* 메인 컨테이너 스타일 */
+/* 🏆 메인 컨테이너 스타일 (너비와 볼륨감 제거 유지) */
 #main-container {
     background-color: #ffffff;
-    padding: 30px;
+    padding: 35px 40px; 
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: none; 
+    border: 1px solid #e0e0e0; 
     width: 100%;
-    max-width: 450px; /* 적절한 너비 설정 */
+    
+    /* 너비를 600px로 유지하여 넉넉한 공간 확보 */
+    max-width: 600px; 
     box-sizing: border-box;
+    
+    /* ✅ [핵심 수정 1]: 수평 중앙 정렬 (flex 컨테이너 내부에서 사용) */
+    align-self: center; 
+    
+    /* ✅ [핵심 수정 2]: 네비게이션 바와 폼 사이 간격 확보 */
+    margin-top: 50px; 
+    margin-bottom: 50px; /* 아래쪽에도 여백을 충분히 줍니다. */
 }
 
 /* 헤더 스타일 */
 #form-header {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 h2 {
@@ -39,7 +57,7 @@ h2 {
 #status {
     text-align: center;
     padding: 10px;
-    background-color: #e9ecef;
+    background-color: #f3f6f9;
     border-radius: 6px;
     font-weight: 600;
 }
@@ -49,13 +67,15 @@ h2 {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    gap: 10px;
+    gap: 15px; /* 라벨과 입력 필드 사이 간격 */
+    /* ✅ 중요: 내부 요소가 넘칠 경우 대비하여 튀어나가지 않도록 설정 */
+    min-width: 0; 
 }
 
-/* 라벨 스타일 (정렬 기준) */
+/* 🥇 라벨 스타일 (너비 120px 유지) */
 label {
     flex-shrink: 0;
-    width: 90px; /* 라벨 너비 고정 */
+    width: 120px; 
     font-weight: 600;
     color: #34495e;
     text-align: right;
@@ -64,11 +84,13 @@ label {
 /* 입력 필드 스타일 */
 input {
     flex-grow: 1;
-    padding: 10px 12px;
+    padding: 12px;
     border: 1px solid #bdc3c7;
     border-radius: 6px;
-    font-size: 15px;
+    font-size: 16px; 
     box-sizing: border-box;
+    /* ✅ 중요: input 자체도 넘치지 않도록 최소 너비 설정 */
+    min-width: 0;
 }
 
 /* 중복확인 버튼 */
@@ -76,15 +98,16 @@ input {
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 10px 10px;
+    padding: 12px 15px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     flex-shrink: 0;
+    transition: background-color 0.2s;
 }
 
-#id_check:hover {
+#id_check:hover, #toggle-select-btn:hover {
     background-color: #2980b9;
 }
 
@@ -92,7 +115,7 @@ input {
 #submit-group {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 /* 가입하기 버튼 스타일 */
@@ -100,13 +123,14 @@ button[type="submit"] {
     background-color: #2ecc71;
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 6px;
+    padding: 15px 30px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     width: 100%;
-    max-width: 200px;
+    max-width: 250px;
+    transition: background-color 0.2s;
 }
 
 button[type="submit"]:hover {
@@ -114,28 +138,83 @@ button[type="submit"]:hover {
 }
 
 /* 비밀번호 확인 메시지 컨테이너 정렬 */
-/* pw-match-message가 다른 form-group과 동일하게 정렬되도록 조정 */
 #pw-match-message {
-    /* 기존 인라인 스타일을 CSS로 가져와 확장합니다. */
     text-align: right; 
-    margin-right: 10px; 
-    font-size: 0.9em; 
+    margin-right: 15px; 
+    font-size: 0.95em; 
     height: 1.2em;
-    
-    /* 추가: 메시지를 라벨 아래쪽으로 위치시키기 위한 정렬 조정 */
-    margin-left: 100px; /* label의 너비(90px) + gap(10px)을 확보 */
-    margin-bottom: 15px; /* 다음 폼 그룹과의 간격 유지 */
+    margin-left: 135px; /* 라벨 너비 (120px) + gap (15px) */
+    margin-bottom: 15px; 
+    color: #e74c3c;
 }
 
-/* 아이디 입력 필드와 버튼이 붙어있는 form-group만을 위한 특별한 조정 */
-.form-group:nth-child(1) input[type="text"] {
-    /* 아이디 입력 필드가 중복확인 버튼 공간을 제외하고 채우도록 flex-grow를 조정 */
+/* 아이디/닉네임 입력 필드와 버튼이 붙어있는 form-group만을 위한 조정 */
+.form-group:nth-child(1) input[type="text"],
+.form-group:nth-child(4) input[type="text"] {
     flex-grow: 1; 
-    /* 버튼과의 간격 확보는 .form-group의 gap: 10px로 충분함 */
 }
 
-/* 중복확인 버튼의 위치 조정 (현재 코드는 괜찮으나, 안전을 위해) */
-#id_check, #nickname_check {
-    /* 이미 flex-shrink: 0;으로 되어 있으므로 별도 수정은 불필요 */
-    margin-left: auto; /* 필요 시 오른쪽 끝에 붙일 때 사용 */
+/* --- 이메일 그룹 스타일 --- */
+
+.email-group {
+    display: flex;
+    align-items: center;
+    /* ✅ 이메일 그룹 내부 요소들이 넘치지 않도록 다시 명시 */
+    width: 100%;
+}
+
+.email-group span {
+    flex-shrink: 0; 
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* ✅ 비율 조정: ID 40%, Domain 60% 비율로 남은 공간 활용 */
+#email_id {
+    flex-grow: 0.4; 
+    /* ID 입력 필드 자체에 너비 비율을 명확히 지정 */
+}
+
+#email_domain_select {
+    flex-grow: 0.6; /* 나머지 60% 차지 */
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* 직접 입력 필드와 버튼 컨테이너 스타일 */
+#manual-input-wrapper {
+    /* ✅ flex-grow: 1; 대신 0.6으로 변경하여 select 박스와 동일한 비율 유지 */
+    flex-grow: 0.6; 
+    position: relative; 
+    display: flex; /* 자식 요소들을 정렬하기 위해 유지 */
+    /* ✅ 튀어나감 방지: 래퍼가 컨테이너를 넘어가지 않게 min-width: 0; 설정 */
+    min-width: 0; 
+}
+
+/* 직접 입력 필드 스타일 */
+#email_domain_manual {
+    /* flex-grow: 1;로 설정하여 래퍼 내부의 모든 공간을 버튼을 제외하고 차지 */
+    flex-grow: 1;
+    padding-right: 35px;
+    border-radius: 6px 0 0 6px;
+}
+
+/* 토글 버튼 스타일 */
+#toggle-select-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 10px;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    flex-shrink: 0;
+    width: 40px;
+    margin-left: -1px; 
+    box-sizing: border-box;
+    height: 100%;
 }
