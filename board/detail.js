@@ -16,16 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '../index.html'; 
         });
     }
-
+    if(editButton){
+        editButton.addEventListener('click',() => {
+            window.location.href='../board/write.html?id=${boardId}';
+        });
+    }
     // TODO: 삭제, 수정 버튼 기능은 주석 처리된 상태로 유지합니다.
     // if (deleteButton) { deleteButton.addEventListener('click', handleDelete); }
     // if (editButton) { editButton.addEventListener('click', handleEdit); }
 });
 
+
 // URL에서 게시글 ID를 추출하는 함수
 function getBoardIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('id');
+    const id = params.get('id');
+    return id? parseInt(id,10): null;
 }
 
 /**

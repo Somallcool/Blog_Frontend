@@ -15,16 +15,24 @@ const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
  * * @param {File} file - 드롭된 File 객체
  * @returns {Promise<string>} - 이미지 URL (임시 로컬 URL)
  */
-async function processLocalImageForPreview(file) {
-    console.log(`[Local Preview Processing] 파일명: ${file.name}, 타입: ${file.type}`);
+async function uploadImageToServer(file) {
+    console.log(`[Server Upload Processing] 파일명: ${file.name}, 타입: ${file.type}`);
     
-    // 네트워크 지연 시뮬레이션 (1초) - '업로드 중...' 메시지를 보여주기 위함
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
+    const formData = new FormData();
+    formData.append('file',file);
 
-    // 실제 파일의 로컬 URL 생성 (브라우저 메모리에 있는 파일에 대한 임시 URL)
-    const localUrl = URL.createObjectURL(file);
+    try{
+        const endpoint = '/boards/upload-image';
 
-    return localUrl;
+        const serverUrl = await apiPost(endpoint,formData);
+
+        console.log(`[Upload Success] 서버 URL : ${serverUrl}`);
+        return serverUrl;
+    }
+    catch(error){
+        console.error("파일 서버 업로드 실패 :",error);
+        throw new Error(`파일 업로드 실패 : ${error.message || '서버 오류'}`);
+    }
 }
 
 /**
@@ -51,6 +59,7 @@ function updateTextareaContent(textarea, text, updateAction = 'insert', targetTe
         } else {
             // 못 찾으면 그냥 삽입 (안전 장치)
             value = value.substring(0, start) + text + value.substring(end);
+            newCursorPos = start + text.length;
         }
     }
     
@@ -141,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let imageUrl = '';
             try {
                 // 2. 이미지 처리 및 로컬 URL 획득 (원본 이미지 표시를 위함)
-                imageUrl = await processLocalImageForPreview(imageFile);
+                imageUrl = await uploadImageToServer(imageFile);
 
                 // 3. 로딩 텍스트를 마크다운 구문으로 대체
                 const markdownSyntax = `\n![${imageFile.name}]( ${imageUrl} )\n`;
