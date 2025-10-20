@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>메인 화면</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semicolon | 메인 화면</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
 </head>
@@ -47,11 +47,11 @@
                 </tbody>
             </table>
 
-            <!-- 💡 로딩 및 에러 메시지 위치 변경 및 ID 명시 -->
-            <p class="text-center text-gray-500 py-4" id="loadingMessage">게시물을 불러오는 중...</p>
-        </div>
+                <!-- 로딩 및 에러 메시지 -->
+                <p class="text-center text-gray-500 py-4" id="loadingMessage">게시물을 불러오는 중...</p>
+            </div>
 
-        <div id="errorMessage" class="hidden mt-4 text-center text-red-600 font-medium"></div>
+            <div id="errorMessage" class="hidden mt-4 text-center text-red-600 font-medium"></div>
 
     </div>
     <script type="module" src="./board/list.js"></script>
