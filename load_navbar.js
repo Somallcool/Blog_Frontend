@@ -2,7 +2,7 @@ function loadHtml(url, targetId) {
     fetch(url)
         .then(response => {
             if(!response.ok) {
-                throw new Error('네이게이션 바 로드 실패: '+response.statusText);
+                throw new Error(`네이게이션 바 로드 실패 (URL: ${url}): `+response.statusText);
             }
             return response.text();
         })
@@ -20,5 +20,11 @@ function loadHtml(url, targetId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadHtml('../../navbar.html', 'navbar-placeholder');
+  // 현재 경로의 깊이에 따라 navbar.html 경로 조정
+  let path = window.location.pathname;
+
+  // member 하위 폴더라면 ../.. 추가
+  let navbarPath = path.includes('/member/') ? '../../navbar.html' : 'navbar.html';
+
+  loadHtml(navbarPath, 'navbar-placeholder');
 });
