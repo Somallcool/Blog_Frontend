@@ -23,19 +23,50 @@ navbar 추가하는 방법
     - ( 비었다 ) = 현재 위치 기준으로 보면 될 듯
 -->
 <body>
+    <nav class="navbar">
+        <div class="nav-logo">Semicolon</div>
+        <ul class="nav-links">
+            <li><a href="#">홈</a></li>
+            <li><a href="member/sign_up.html">회원가입</a></li>
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">문의</a></li>
+        </ul>
+    </nav>
+     <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-2xl mt-10">
     <div id="navbar-placeholder"></div>
     <h1>여기에 웹사이트 내용이 들어갑니다.</h1>
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-2xl">
         <div class="flex justify-between items-center border-b pb-4 mb-6">
             <h1 class="text-3xl font-extrabold text-gray-900">게시물 목록</h1>
-            <a href="./board/write.html" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200">
+            
+            <!-- 💡 수정 1: write-button ID 추가 -->
+            <a id="write-button" href="./board/write.html" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200">
                 + 새 글 작성
             </a>
         </div>
         
-        <!-- 게시물 목록이 여기에 렌더링됩니다. (board.js가 채울 영역) -->
-        <div id="board-list-container" class="space-y-3">
-            <p class="text-center text-gray-500" id="loadingMessage">게시물을 불러오는 중...</p>
+        <!-- 💡 수정 2: 테이블 구조 추가. list.js의 fetchBoardList 함수가 이 <tbody>에 행을 추가합니다. -->
+        <div id="board-list-container">
+            
+            <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">번호</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">제목</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">작성자</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">작성일</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">조회</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">추천</th>
+                    </tr>
+                </thead>
+                <!-- 💡 list.js에서 데이터를 채워 넣을 테이블 본체 ID -->
+                <tbody id="board-list-body" class="bg-white divide-y divide-gray-200">
+                    <!-- 게시물 행이 여기에 들어갑니다. -->
+                </tbody>
+            </table>
+
+            <!-- 💡 로딩 및 에러 메시지 위치 변경 및 ID 명시 -->
+            <p class="text-center text-gray-500 py-4" id="loadingMessage">게시물을 불러오는 중...</p>
         </div>
 
         <div id="errorMessage" class="hidden mt-4 text-center text-red-600 font-medium"></div>
@@ -43,5 +74,6 @@ navbar 추가하는 방법
     </div>
     <script src="load_navbar.js"></script> 
     <script type="module" src="./board/list.js"></script>
+    <script type="module" src="./app.js"></script>
 </body>
 </html>

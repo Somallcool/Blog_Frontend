@@ -3,63 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 작성</title>
+    <title>새 글 작성</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding-top: 50px; }
-        .container { background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; }
-        h1 { font-size: 1.8rem; color: #333; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
-        input[type="text"], textarea, select { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; transition: border-color 0.3s; }
-        input[type="text"]:focus, textarea:focus, select:focus { border-color: #4f46e5; outline: none; }
-        textarea { resize: vertical; min-height: 200px; }
-        .form-group { margin-bottom: 20px; }
-        .btn-submit { background-color: #4f46e5; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s; width: 100%; }
-        .btn-submit:hover { background-color: #4338ca; }
-    </style>
-    <script  type="module" src="/board/write.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>새 게시글 작성</h1>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; }
+        .markdown-preview {
+            border: 1px solid #e5e7eb;
+            min-height: 200px;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.07);
+        }
         
-        <!-- form의 name 속성이 DTO 필드명과 일치해야 합니다. (title, content, author, category, img) -->
-        <form id="board-write-form" method="POST" enctype="multipart/form-data">
+        /* 💡 마크다운 렌더링 스타일 강화 (제목 태그 h1~h4 추가) */
+        .markdown-preview h1 { 
+            font-size: 2.25em; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            border-bottom: 2px solid #3b82f6; /* indigo-500 */
+            margin-top: 1.5rem; 
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem; 
+            color: #1f2937; /* gray-800 */
+        }
+        .markdown-preview h2 { 
+            font-size: 1.75em; /* text-3xl */
+            font-weight: 600; /* font-semibold */
+            border-bottom: 1px dashed #6b7280; /* gray-400 */
+            margin-top: 1.25rem; 
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.3em;
+        }
+        .markdown-preview h3 { 
+            font-size: 1.35em; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-top: 1rem; 
+            margin-bottom: 0.5rem;
+            color: #4b5563; /* gray-600 */
+        }
+        .markdown-preview h4 {
+            font-size: 1.15em; /* text-lg */
+            font-weight: 500;
+            margin-top: 0.8rem; 
+            margin-bottom: 0.4rem;
+        }
+        
+        /* 기존 스타일 유지 */
+        .markdown-preview p { margin-bottom: 1em; line-height: 1.6; }
+        .markdown-preview pre { background-color: #f0f4f8; padding: 0.75rem; border-radius: 4px; overflow-x: auto; }
+        .markdown-preview code { background-color: #e2e8f0; padding: 2px 4px; border-radius: 4px; font-size: 0.9em; }
+        .markdown-preview img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
+        .drag-hover {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-xl p-6 md:p-10">
+
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-8 border-b pb-4">새 게시글 작성</h1>
+
+        <!-- status 메시지 영역 (백엔드 연결 확인용) -->
+        <p id="status" class="mb-4 text-sm font-medium text-green-600"></p>
+
+        <!-- 게시글 작성 폼 -->
+        <form id="board-write-form" >
+
+            <!-- 제목 -->
+            <div class="mb-5">
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">제목</label>
+                <input type="text" id="title" name="title" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                       placeholder="제목을 입력하세요">
+            </div>
+
+            <!-- 작성자 (닉네임) -->
+            <div class="mb-5">
+                <label for="nickname" class="block text-sm font-medium text-gray-700 mb-2">작성자 (닉네임)</label>
+                <input type="text" id="nickname" name="nickname" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                       placeholder="닉네임을 입력하세요">
+            </div>
             
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" id="title" name="title" required placeholder="게시글 제목을 입력하세요">
-            </div>
-
-            <div class="form-group">
-                <label for="nickname">작성자</label>
-                <input type="text" id="nickname" name="nickname" required placeholder="작성자를 입력하세요">
-            </div>
-
-            <div class="form-group">
-                <label for="category">카테고리</label>
-                <select id="category" name="category" required>
-                    <option value="">-- 선택 --</option>
-                    <option value="FREE">자유 게시판</option>
-                    <option value="NOTICE">공지 사항</option>
+            <!-- 💡 새로 추가된 카테고리 선택 필드 -->
+            <div class="mb-5">
+                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">카테고리</label>
+                <select id="category" name="category" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm bg-white">
+                    <option value="" disabled selected>카테고리를 선택하세요</option>
+                    <option value="notice">공지사항</option>
+                    <option value="free">자유 게시판</option>
+                    <option value="question">질문/답변</option>
+                    <option value="etc">기타</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="content">내용</label>
-                <textarea id="content" name="content" rows="10" required placeholder="게시글 내용을 입력하세요"></textarea>
+            <!-- 내용 (마크다운) -->
+            <div class="mb-5">
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">내용 (마크다운) - 이미지 드래그 가능</label>
+                <textarea id="content" name="content" rows="10" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                    placeholder="마크다운 문법으로 내용을 작성하고 이미지를 드래그하세요."></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="img">이미지 파일</label>
-                <!-- DTO의 MultipartFile img 필드와 name="img"가 일치해야 합니다. -->
-                <input type="file" id="img" name="img" accept="image/*">
+            <!-- 마크다운 미리보기 -->
+            <h2 class="text-xl font-bold text-gray-800 my-4 border-t pt-4">미리보기</h2>
+            <div id="markdown-preview" class="markdown-preview">
+                <p class="text-gray-400 italic">여기에 마크다운 미리보기가 표시됩니다.</p>
             </div>
 
-            <button type="submit" class="btn-submit">작성 완료</button>
+
+            <!-- 버튼 그룹 -->
+            <div class="mt-8 flex justify-end space-x-4">
+                <button type="button" onclick="window.history.back();" 
+                        class="px-6 py-3 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-600 transition duration-150 shadow-md">
+                    취소
+                </button>
+                <button type="submit" 
+                        class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-150 shadow-xl">
+                    게시글 작성
+                </button>
+            </div>
         </form>
     </div>
 
-    <!-- write.js 파일을 모듈 타입으로 로드 -->
-   
+    <!-- 스크립트 모듈 로드 -->
+    <script type="module" src="../app.js"></script>
+    <script type="module" src="../board/write.js"></script>
 </body>
 </html>
