@@ -1,3 +1,5 @@
+console.log('signup.js 파일 로드 성공');
+
 const SIGNUP_ENDPOINT = '/member';
 const API_BASE_URL = 'http://localhost:8000/api/v1'; 
 const signupForm = document.getElementById('signup-form');

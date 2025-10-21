@@ -1,3 +1,4 @@
+console.log('nick_check.js 파일 로드 성공');
 const NICK_CHECK_ENDPOINT = '/check/nickname';
 const nickValue = document.getElementById('nickname');
 const nickCheckButton = document.getElementById('nickname_check');
