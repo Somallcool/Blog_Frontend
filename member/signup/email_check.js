@@ -1,4 +1,4 @@
-// email_check.js (수정된 코드)
+console.log('email_check.js 파일 로드 성공');
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. 필요한 DOM 요소들을 가져옵니다.

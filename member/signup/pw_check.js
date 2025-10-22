@@ -1,3 +1,5 @@
+console.log('pw_check.js 파일 로드 성공');
+
 const pwValue = document.getElementById('password');
 const pwCheckValue = document.getElementById('password_check');
 const pwMatchMessage = document.getElementById('pw-match-message');

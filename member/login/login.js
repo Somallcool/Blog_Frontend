@@ -1,3 +1,5 @@
+console.log('login.js파일 로드 성공');
+
 const API_BASE_URL = 'http://localhost:8000/api/v1';
 const LOGIN_ENDPOINT = '/login';
 const loginForm = document.getElementById('login-form');
@@ -34,12 +36,15 @@ loginForm.addEventListener('submit', async function(event) {
         if(response.ok) {
             const result = await response.json();
 
-            statusDiv.textContent = `로그인 성공 ${result.username}님, 환영합니다.`;
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userNickname', result.nickname);
+
+            statusDiv.textContent = `로그인 성공 ${result.nickname}님, 환영합니다. 잠시 후 이동합니다.`;
             statusDiv.style.color = 'green';
 
             setTimeout(() => {
                 window.location.href = '../../index.html';
-            }), 1500; // 1.5초 후 이동 
+            }, 3000); // 1.5초 후 이동 
         } else {
             const errorData = await response.json().catch(() => ({message: `상태 코드 ${response.status} 오류`}));
             statusDiv.textContent = `로그인 실패 ${errorData.message || '아이디 또는 비밀번호가 일치하지 않습니다.'}`;
