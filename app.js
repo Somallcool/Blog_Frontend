@@ -37,30 +37,13 @@ function showMessage(message,type='error'){
     console.log(`[${type.toUpperCase()} Message]: ${message}`);
 }
 
-export async function checkBackendConnection() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/boards/test`);
-        const text = await response.text();
-
-        const statusElement = document.getElementById('status');
-        if(statusElement){
-            statusElement.textContent = `백엔드 연결 성공 : ${text} `;
-        }
-        
-    } catch (error) {
-        console.error('백엔드 연결 실패:', error);
-        const statusElement =document.getElementById('status');
-        if(statusElement){
-            statusElement.textContent='백엔드 연결 실패. 8000 포트가 열려 있는지, CORS 설정이 됐는지 확인하세요.';
-        } 
-    }
-}
 
 /**
  * HTTP GET 요청을 처리하는 범용 함수
  * @param {string} endpoint - API 엔드포인트 경로 (예: '/boards' 또는 '/boards/1')
  * @returns {Promise<Object>} 서버로부터 받은 JSON 데이터
  */
+
 export async function apiGet(endpoint){
     try{
         const url = `${API_BASE_URL}${API_V1_PATH}${endpoint}`;
@@ -99,6 +82,7 @@ export async function apiGet(endpoint){
  * @param {FormData} formData - 폼 데이터 (텍스트 및 파일)
  * @returns {Promise<string>} 서버로부터 받은 응답 텍스트
  */
+
 export async function apiPost(endpoint, formData) {
     try {
         const url = `${API_BASE_URL}${API_V1_PATH}${endpoint}`;
