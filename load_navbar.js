@@ -3,14 +3,14 @@ console.log('load_navbar.js 파일 로드 성공');
 function handleLogout(event) {
     event.preventDefault();
     
-    // ⭐️ 핵심: localStorage에서 인증 정보 제거
+    // 핵심: localStorage에서 인증 정보 제거
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userNickname'); 
     
     alert('로그아웃되었습니다.'); 
     
     // 메인 화면으로 리디렉션하여 UI를 초기화
-    window.location.href = '/Blog_Frontend/index.html'; 
+    window.location.href = '/index.html'; 
 }
 
 function updateNavbarUI() {
@@ -82,11 +82,26 @@ function loadHtml(url, targetId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 현재 경로의 깊이에 따라 navbar.html 경로 조정
-  let path = window.location.pathname;
+    // 1. URL에서 토큰 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const jwtToken = urlParams.get('token');
+    const userNickname = urlParams.get("nickname"); // URL에서 닉네임 파라미터 가져오기
 
-  // member 하위 폴더라면 ../.. 추가
-  let navbarPath = path.includes('/member/') ? '../../navbar.html' : 'navbar.html';
+    if (jwtToken&& userNickname) {
+        // 2. 토큰을 localStorage에 저장 (후속 API 요청에 사용)
+        localStorage.setItem('jwtToken', jwtToken);
 
-  loadHtml(navbarPath, 'navbar-placeholder');
+        // 3. 네비게이션바 업데이트를 위한 localStorage 값 설정
+        // updateNavbarUI가 사용할 닉네임 값을 여기에 설정합니다.
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userNickname', userNickname);
+
+        // 4. URL 정리 (히스토리에서 ?token=... 제거)
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    // 5. 네비게이션 바 로드 (토큰 처리 후)
+    let path = window.location.pathname;
+    let navbarPath = path.includes('/member/') ? '../../navbar.html' : 'navbar.html';
+    loadHtml(navbarPath, 'navbar-placeholder');
 });
