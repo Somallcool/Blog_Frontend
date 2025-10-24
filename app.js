@@ -248,7 +248,6 @@ export async function apiDelete(endpoint){
 }
 
 // Global window 객체에 함수 등록
-window.checkBackendConnection = checkBackendConnection;
 window.apiGet = apiGet;
 window.apiPost = apiPost;
 window.apiPostJson = apiPostJson;
