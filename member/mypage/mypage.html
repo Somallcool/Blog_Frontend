@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY PAGE</title>
+    <link rel="stylesheet" href="../../navbar.css">
+    <link rel="stylesheet" href="mypage_style.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <div class="mypage-container">
+        <h2>마이페이지</h2>
+        <div id="status-message" class="message">데이터 로드 중...</div>
+
+        <section class="user-info-section" id="user-info-section" style="display:none;">
+            <h3>회원 정보</h3>
+            <div class="info-group">
+                <label>회원 번호 (ID):</label>
+                <p id="memberId"></p>
+            </div>
+            <div class="info-group">
+                <label>아이디 (Username):</label>
+                <p id="username"></p>
+            </div>
+            <div class="info-group">
+                <label>닉네임 (Nickname):</label>
+                <p id="nickname"></p>
+            </div>
+            <div class="info-group">
+                <label>이메일 (Email):</label>
+                <p id="email"></p>
+            </div>
+            <button id="editBtn" class="primary-btn">정보 수정</button>
+        </section>
+
+        </div>
+
+    <script src="../../load_navbar.js"></script> 
+    <script src="mypage.js"></script> </body>
+</body>
+</html>

@@ -1,0 +1,106 @@
+/* login_style.css (수정본) */
+
+/* ⭐ 0. 전체 페이지 중앙 정렬을 위한 기본 설정 (body 높이 100% 필수) */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6; /* 부드러운 배경색 */
+}
+
+/* ⭐ 1. 전체 컨테이너 스타일링 및 수평/수직 중앙 정렬 (내비게이션바 제외) */
+.login-container {
+    /* 내비게이션바가 고정 높이 60px이라고 가정하고, 나머지 영역을 차지하게 합니다. */
+    min-height: calc(100vh - 60px); 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* ⭐ 수직 중앙 정렬을 위해 추가/강조 */
+    padding: 20px 0; /* 상하 패딩 추가 */
+    box-sizing: border-box;
+}
+
+.login-container h1 {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 28px;
+}
+
+/* 2. 로그인 폼 및 상태 영역 스타일링 */
+#login-status {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
+    background-color: #fff;
+    /* ⭐ 인라인 스타일 제거됨: margin-bottom: 10px; */
+}
+
+/* 3. 일반 로그인 폼 입력 요소 스타일 */
+#login-form div {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#login-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #2c3e50; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+#login-form button[type="submit"]:hover {
+    background-color: #34495e;
+}
+
+/* 4. 소셜 로그인 버튼 컨테이너 (정렬 및 간격) */
+.social-login-area {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+    margin-top: 20px; 
+    /* ⭐ 인라인 스타일 제거됨: margin-top: 20px; */
+}
+
+/* 5. 소셜 로그인 버튼 크기 통일 및 스타일링 */
+.social-login-btn {
+    display: block; 
+    width: 100%;
+    text-align: center; 
+    cursor: pointer;
+}
+
+/* ⭐⭐ 핵심: 카카오/네이버 이미지 크기 통일 ⭐⭐ */
+.social-login-btn img {
+    width: 100%; /* 너비는 부모 요소(a 태그)에 맞춥니다. */
+    height: 50px; /* ⭐ 높이를 50px로 강제 통일 */
+    max-width: 300px; /* ⭐ 인라인 스타일 제거됨: max-width: 300px; */
+    object-fit: cover; /* ⭐ 비율을 유지하며 잘라내어 50px 높이에 맞춥니다. */
+    border-radius: 4px; /* 버튼 모서리를 둥글게 */
+    display: block; /* 이미지 하단 공백 제거 */
+    margin: 0 auto;
+}
