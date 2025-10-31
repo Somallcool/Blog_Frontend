@@ -89,24 +89,64 @@ function updateTextareaContent(textarea, text, updateAction = 'insert', targetTe
     textarea.dispatchEvent(event);
 }
 
-function initializeAuthAndNickname(nicknameInput){
-    const nickname = localStorage.getItem('userNickname');
+async function initializeAuthAndNickname(nicknameInput){
+    // ⭐ 세션 스토리지 대신 서버 인증 확인 API 사용
+    const authCheckEndpoint = '/boards/auth-check'; 
 
-    console.log('[Auth Check] Reading userNickname:', nickname);
-    if(!nickname){
-        console.warn('인증 토큰 또는 닉네임이 없어 로그인 페이지로 이동합니다.');
+    try {
+        // apiGet은 app.js에 정의되어 있으며, 자동으로 credentials: 'include'를 사용하여 HttpOnly 쿠키 전송
+        const authResponse = await apiGet(authCheckEndpoint); 
+        
+        const nickname = authResponse.userNickname; // 서버 응답에서 닉네임 키를 'userNickname'으로 가정
+        
+        if (!nickname) {
+             // 서버가 401을 보내지 않고 닉네임 없이 200 응답을 보낸 경우 (비정상)
+             console.error("서버 응답에서 유효한 닉네임을 찾을 수 없습니다.");
+             throw new Error("닉네임 정보 누락"); 
+        }
+        
+        console.log('[Auth Check] Reading userNickname:', nickname);
+
+        // 닉네임 입력 필드를 채우고 잠금
+        if(nicknameInput){
+            nicknameInput.value = nickname;
+            nicknameInput.readOnly = true;
+            // ⭐ 오타 수정: 'cursor=not-allowed' -> 'cursor-not-allowed'
+            nicknameInput.classList.add('bg-gray-100', 'cursor-not-allowed'); 
+        }
+        
+        // 네비게이션바 UI 동기화를 위해 sessionStorage 업데이트 (선택 사항)
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('userNickname', nickname);
+        
+        return true;
+        
+    } catch(error) {
+        // apiGet에서 401 Unauthorized 등을 받으면 이 블록으로 이동
+        console.warn('인증 확인 실패. 로그인 페이지로 이동합니다.', error.message);
         alert('게시글 작성을 위해 로그인이 필요합니다.');
         window.location.href='../member/login/login.html';
         return false;
     }
-    if(nicknameInput){
-        nicknameInput.value=nickname;
-
-        nicknameInput.readOnly = true;
-        nicknameInput.classList.add('bg-gray-100','cursor=not-allowed');
-    }
-    return true;
 }
+// function initializeAuthAndNickname(nicknameInput){
+//     const nickname = sessionStorage.getItem('userNickname');
+
+//     console.log('[Auth Check] Reading userNickname:', nickname);
+//     if(!nickname){
+//         console.warn('인증 토큰 또는 닉네임이 없어 로그인 페이지로 이동합니다.');
+//         alert('게시글 작성을 위해 로그인이 필요합니다.');
+//         window.location.href='../member/login/login.html';
+//         return false;
+//     }
+//     if(nicknameInput){
+//         nicknameInput.value=nickname;
+
+//         nicknameInput.readOnly = true;
+//         nicknameInput.classList.add('bg-gray-100','cursor=not-allowed');
+//     }
+//     return true;
+// }
 
 // ---------------------------------------------------
 // DOM 로드 및 이벤트 바인딩
