@@ -5,26 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semicolon | 메인 화면</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="navbar.css">
     
 </head>
 <style>
-        /* 콘텐츠 너비 제한 (Velog 스타일) */
-        .container-velog {
-            max-width: 860px; /* 블로그 포스트에 적합한 너비 */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
         }
-        /* 로딩 스피너 애니메이션 */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #4f46e5; /* Tailwind indigo-600 */
-            animation: spin 1s ease infinite;
+        /* JS에서 동적으로 삽입되는 line-clamp-4 CSS */
+        .line-clamp-4 {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Velog 스타일 카드 높이 고정 (약 25rem / 400px) */
+        .board-card {
+            height: 25rem; /* 400px */
         }
     </style>
 <!-- 
@@ -54,27 +52,32 @@ navbar 추가하는 방법
             </a>
         </header>
 
-        <!-- 게시글 목록이 들어갈 컨테이너 (그리드 레이아웃) -->
-        <div id="board-list-container" class="grid gap-12 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <!-- JavaScript에 의해 게시글 카드가 삽입될 위치 -->
-        </div>
+       <!-- Main Content Container (Fixed Width & Centered) -->
+    <main class="w-full">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+            
+            <!-- 게시글 목록 컨테이너 (Grid) -->
+            <div id="board-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 게시글 카드들이 여기에 추가됩니다. -->
+            </div>
+            
+            <!-- 로딩 메시지 -->
+            <div id="loadingMessage" class="hidden text-center mt-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-green-500 border-gray-200"></div>
+                <p class="text-gray-500 mt-2">게시글을 불러오는 중...</p>
+            </div>
 
-        <!-- 로딩 메시지 및 스피너 (스크롤 시 로딩) -->
-        <div id="loadingMessage" class="flex justify-center items-center py-12 hidden">
-            <div class="spinner"></div>
-            <p class="ml-3 text-lg text-gray-500">포스트를 불러오는 중...</p>
-        </div>
+            <!-- 에러 메시지 -->
+            <div id="errorMessage" class="hidden text-center mt-12 p-4 bg-red-100 border border-red-400 text-red-700 rounded" role="alert">
+                API 요청 중 오류가 발생했습니다.
+            </div>
 
-        <!-- 에러 메시지 -->
-        <div id="errorMessage" class="py-12 text-center text-red-600 font-bold hidden">
-            <!-- 에러 메시지 내용 -->
+            <!-- 목록 끝 메시지 -->
+            <div id="endOfListMessage" class="hidden text-center mt-12 text-gray-500">
+                <p>- 모든 게시글을 불러왔습니다 -</p>
+            </div>
         </div>
-
-        <!-- 더 이상 불러올 글이 없을 때 표시될 메시지 -->
-        <div id="endOfListMessage" class="py-12 text-center text-gray-500 font-medium hidden">
-            모든 포스트를 불러왔습니다.
-        </div>
-    </div>
+    </main>
     <script src="load_navbar.js"></script> 
     <script type="module" src="./board/list.js"></script>
     <script type="module" src="./app.js"></script>

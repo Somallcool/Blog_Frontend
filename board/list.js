@@ -110,23 +110,49 @@ function createBoardCard(board) {
     // 날짜 포맷팅
     const formattedDate = `${inputDate.getFullYear()}년 ${inputDate.getMonth() + 1}월 ${inputDate.getDate()}일`;
 
-    // 마크다운에서 추출된 첫 번째 텍스트 블록을 요약 (HTML 태그 및 줄바꿈 제거)
-    const rawContent = board.content ? board.content.replace(/<[^>]*>/g, '').trim() : '';
-    const singleLineContent = rawContent.replace(/(\r\n|\n|\r)/gm, " ");
-    const summaryText = singleLineContent.substring(0, 150) + (singleLineContent.length > 150 ? '...' : '');
+    // ⭐ 1. 이미지 추출 로직: 게시글 내용에서 첫 번째 이미지를 추출합니다. 
+    // (Content 필드가 List DTO에 포함되는 것은 비효율적이지만, 필수가 아니므로 null 체크 후 시도합니다.)
+    let imageUrl = null;
+    if(board.content){
+        // <img> 태그의 src 속성을 정규식으로 찾습니다.
+        const imgMatch = board.content.match(/<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/i);
+        if(imgMatch && imgMatch[1]){
+            imageUrl = imgMatch[1];
+        }
+    }
+
+    // ⭐ 2. 요약 텍스트: 백엔드에서 최적화된 필드(contentSummary)를 우선 사용합니다.
+    let summaryText = board.contentSummary || '내용 요약이 없습니다.';
+    
+    // contentSummary가 없는데 content가 있다면(비효율적) 클라이언트에서 요약을 시도합니다.
+    if (!board.contentSummary && board.content) {
+        // HTML 태그 및 줄바꿈 제거 후 요약
+        const rawContent = board.content.replace(/<[^>]*>/g, '').trim();
+        const singleLineContent = rawContent.replace(/(\r\n|\n|\r)/gm, " ");
+        summaryText = singleLineContent.substring(0, 150) + (singleLineContent.length > 150 ? '...' : '');
+    }
 
     // 상세 페이지 링크 설정
     card.addEventListener('click', () => {
         window.location.href = `board/detail.html?id=${board.boardId}`;
     });
+    
+    // ⭐ 3. 카드에 이미지 삽입 (추출된 이미지가 있을 경우)
+    const imageHtml = imageUrl 
+        ? `<div class="h-48 overflow-hidden">
+             <img src="${imageUrl}" alt="${board.title} 대표 이미지" class="w-full h-full object-cover transition duration-500 hover:scale-[1.03]" />
+           </div>`
+        : '';
 
     card.innerHTML = `
+        ${imageHtml}
         <div class="p-6">
             <!-- 제목 -->
             <h2 class="text-xl font-bold text-gray-900 mb-2 truncate">${board.title}</h2>
             
             <!-- 내용 요약 -->
-            <p class="text-gray-600 mb-4 h-16 overflow-hidden">${summaryText || '내용 요약이 없습니다.'}</p>
+            <!-- contentSummary 필드를 사용하도록 변경 -->
+            <p class="text-gray-600 mb-4 h-16 overflow-hidden">${summaryText}</p> 
             
             <!-- 하단 메타 정보 -->
             <div class="flex justify-between items-center text-sm text-gray-500 pt-4 border-t border-gray-100">

@@ -89,6 +89,25 @@ function updateTextareaContent(textarea, text, updateAction = 'insert', targetTe
     textarea.dispatchEvent(event);
 }
 
+function initializeAuthAndNickname(nicknameInput){
+    const nickname = localStorage.getItem('userNickname');
+
+    console.log('[Auth Check] Reading userNickname:', nickname);
+    if(!nickname){
+        console.warn('인증 토큰 또는 닉네임이 없어 로그인 페이지로 이동합니다.');
+        alert('게시글 작성을 위해 로그인이 필요합니다.');
+        window.location.href='../member/login/login.html';
+        return false;
+    }
+    if(nicknameInput){
+        nicknameInput.value=nickname;
+
+        nicknameInput.readOnly = true;
+        nicknameInput.classList.add('bg-gray-100','cursor=not-allowed');
+    }
+    return true;
+}
+
 // ---------------------------------------------------
 // DOM 로드 및 이벤트 바인딩
 // ---------------------------------------------------
@@ -111,6 +130,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 초기 상태 메시지 클리어
     if(statusElement) statusElement.textContent = '';
 
+    if(!initializeAuthAndNickname(nicknameInput)){
+        return;
+    }
 
     const updatePreview = async (markdownText) => {
         if (!previewDiv) return;
@@ -145,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             titleInput.value = article.title || '';
             contentTextarea.value = article.content || '';
-            nicknameInput.value = article.nickname || ''; // 닉네임 로드
+            // nicknameInput.value = article.nickname || ''; // 닉네임 로드
             categorySelect.value = article.category || 'free'; // 카테고리 로드
 
             updatePreview(contentTextarea.value);
@@ -156,7 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // 잠시 메시지를 보여준 뒤, 강제 이동 (Production 환경에서는 모달 사용)
             setTimeout(() => {
                 window.location.href='../index.html';
-            }, 30000);
+            }, 3000);
             return;
         }
     } else {
@@ -241,6 +263,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 category: categorySelect.value, // 카테고리 필드 추가
                 content : contentTextarea.value,
             };
+            if(!data.title || !data.content){
+                showMessage("제목과 내용을 모두 입력해주세요");
+                return;
+            }
 
             let endpoint = '';
             let apiCall;
