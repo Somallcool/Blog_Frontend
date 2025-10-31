@@ -96,7 +96,7 @@ function initializeAuthAndNickname(nicknameInput){
     if(!nickname){
         console.warn('인증 토큰 또는 닉네임이 없어 로그인 페이지로 이동합니다.');
         alert('게시글 작성을 위해 로그인이 필요합니다.');
-        window.location.href='./login.html';
+        window.location.href='../member/login/login.html';
         return false;
     }
     if(nicknameInput){

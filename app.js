@@ -52,6 +52,7 @@ export async function apiGet(endpoint){
             method : 'GET',
             // ⭐ 수정: getAuthHeaders는 토큰이 없으면 Authorization 헤더를 포함하지 않습니다.
             headers : getAuthHeaders(true), 
+            credentials : 'include',
         });
 
         if(!response.ok){
@@ -94,6 +95,7 @@ export async function apiPost(endpoint, formData) {
             method: 'POST',
             body: formData, 
             headers: headers, 
+            credentials : 'include',
         });
         
         if (!response.ok) {
@@ -133,6 +135,7 @@ export async function apiPut(endpoint, jsonBody){
         method : 'PUT', 
         headers : getAuthHeaders(true), 
         body: JSON.stringify(jsonBody),
+        credentials : 'include',
     };
 
     try{
@@ -183,6 +186,7 @@ export async function apiPostJson(endpoint, jsonBody){
             method : 'POST',
             headers : getAuthHeaders(true), 
             body : JSON.stringify(jsonBody),
+            credentials : 'include',
         });
         
         if(!response.ok){
@@ -223,6 +227,7 @@ export async function apiDelete(endpoint){
         const response = await fetch(url,{
             method : 'DELETE',
             headers : getAuthHeaders(true),
+            credentials : 'include',
         });
         if(!response.ok){
             let errorText = await response.text();
