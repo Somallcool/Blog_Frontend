@@ -1,25 +1,53 @@
 import { apiGet, apiPost, apiDelete } from "../app.js"; 
 
-// 이 변수를 전역/모듈 범위에 선언하여 모든 함수와 리스너에서 접근 가능하도록 합니다.
+
+// 🚨 Firebase 관련 코드와 import를 모두 제거하고, 
+// 백엔드 서버의 인증 결과(isAuthor)에만 의존합니다.
+
+// 전역 상태 변수
 let currentBoardId = null;
 
 /**
  * 💡 [규칙 준수] 커스텀 메시지를 표시하는 헬퍼 함수
- * alert/confirm 사용 불가 규정을 준수하기 위해 사용
  */
 function showStatusMessage(message, isError = false) {
     const msgBox = document.getElementById('like-message-box') || document.getElementById('error-message');
     if (msgBox) {
         msgBox.textContent = message;
-        msgBox.classList.remove('hidden', 'text-green-500', 'text-red-500');
-        msgBox.classList.add(isError ? 'text-red-500' : 'text-green-500');
+        msgBox.classList.remove('hidden', 'text-green-500', 'text-red-500', 'text-sm');
+        msgBox.classList.add(isError ? 'text-red-500' : 'text-green-500', 'text-base');
         
-        // 3초 후 메시지 숨김
         setTimeout(() => {
             msgBox.classList.add('hidden');
         }, 3000);
     }
 }
+
+/**
+ * 게시글 작성 권한 여부에 따라 수정/삭제 버튼의 가시성을 토글합니다.
+ * @param {boolean} isAuthor - 현재 로그인한 사용자가 게시글 작성자인지 여부 (서버에서 판단)
+ */
+function toggleEditDeleteButtons(isAuthor) {
+    const editButton = document.getElementById('edit-button');
+    const deleteButton = document.getElementById('delete-button');
+
+    // 버튼을 기본적으로 숨긴 상태에서, 작성자일 경우에만 보여줍니다.
+    if (editButton) {
+        editButton.classList.toggle('hidden', !isAuthor);
+    }
+    if (deleteButton) {
+        deleteButton.classList.toggle('hidden', !isAuthor);
+    }
+    
+    // 이 로그는 이제 서버가 판단한 최종 권한 여부만 표시합니다.
+    console.log(`[권한 확인] 서버로부터 받은 작성자 권한 여부: ${isAuthor ? '있음' : '없음'}`);
+    
+    // 권한이 없는데 버튼이 보이려고 하는 경우에 대한 알림 (안전을 위해)
+    if (!isAuthor && (editButton && !editButton.classList.contains('hidden') || deleteButton && !deleteButton.classList.contains('hidden'))) {
+        showStatusMessage("⚠️ 작성자만 수정/삭제가 가능합니다.", true);
+    }
+}
+
 
 /**
  * 좋아요 버튼 클릭을 처리하고 상태를 토글합니다.
@@ -31,45 +59,32 @@ async function handleLikeClick() {
     }
 
     try {
-        // 백엔드 API: POST /boards/{boardId}/like (좋아요 토글)
-        // 서버가 토글 후의 최종 상태(boolean)를 반환한다고 가정합니다.
         let isLikedResponse = await apiPost(`/boards/${currentBoardId}/like`, {}); 
         
-        // ⭐️ 수정된 로직: 응답이 문자열 ("true"/"false")이든, 순수 boolean이든 
-        // 최종적으로 boolean 타입의 isLiked 변수에 저장합니다.
         let isLiked;
         if (typeof isLikedResponse === 'string') {
-            // "true" 또는 "false" 문자열을 boolean으로 변환
             isLiked = isLikedResponse.toLowerCase() === 'true';
         } else if (typeof isLikedResponse === 'boolean') {
-            // 순수 boolean인 경우 그대로 사용
             isLiked = isLikedResponse;
         } else {
-             // 응답이 유효한 boolean 또는 boolean 문자열이 아닐 경우 (예외 처리)
              console.error("좋아요 토글 응답이 유효하지 않습니다:", isLikedResponse);
              showStatusMessage('좋아요 처리 응답 오류', true);
              return;
         }
 
-        // 1. 현재 좋아요 카운트를 DOM에서 가져옵니다.
         const likeCountElement = document.getElementById('detail-likes');
         const currentLikeCount = parseInt(likeCountElement.textContent, 10);
         let newLikeCount;
 
-        // 2. 변환된 isLiked (boolean) 상태를 바탕으로 카운트를 조정합니다.
         if (isLiked) { 
-             // 최종 상태가 '좋아요' (true) -> 카운트 1 증가
              newLikeCount = currentLikeCount + 1;
         } else { 
-            // 최종 상태가 '좋아요 취소' (false) -> 카운트 1 감소
             newLikeCount = Math.max(0, currentLikeCount - 1);
         }
         
-        // UI 업데이트
         likeCountElement.textContent = newLikeCount;
-        updateLikeButtonUI(isLiked); // 이미 불리언 타입이므로 수정 불필요
+        updateLikeButtonUI(isLiked); 
 
-        // 메시지 출력 로직 수정 없음: isLiked 상태에 따라 메시지 출력
         const message = isLiked ? '좋아요를 눌렀습니다!' : '좋아요를 취소했습니다.';
         showStatusMessage(message);
 
@@ -81,7 +96,6 @@ async function handleLikeClick() {
 
 /**
  * 좋아요 버튼의 아이콘과 스타일을 업데이트합니다.
- * @param {boolean} isLiked - 현재 사용자가 좋아요를 눌렀는지 여부
  */
 function updateLikeButtonUI(isLiked) {
     const likeIcon = document.getElementById('like-icon');
@@ -89,90 +103,76 @@ function updateLikeButtonUI(isLiked) {
     const likeCountSpan = document.getElementById('detail-likes');
 
     if (likeIcon) {
-        likeIcon.textContent = isLiked ? '❤️' : '🤍'; // 아이콘 변경
+        likeIcon.textContent = isLiked ? '❤️' : '🤍';
         likeIcon.classList.toggle('text-red-500', isLiked);
         likeIcon.classList.toggle('text-gray-400', !isLiked);
     }
     
-    // 좋아요 수가 0이 아닐 때 숫자를 빨갛게
     const likeCount = parseInt(likeCountSpan?.textContent || '0', 10);
     likeCountSpan?.classList.toggle('text-red-600', likeCount > 0);
     likeCountSpan?.classList.toggle('text-gray-700', likeCount === 0);
 
-    // 버튼 hover 효과 변경
     likeButton?.classList.toggle('hover:bg-red-100', !isLiked);
     likeButton?.classList.toggle('hover:bg-gray-100', isLiked);
 }
 
 
 /**
- * 게시글 삭제를 처리합니다. (alert/confirm 사용 금지 규칙에 맞게 수정됨)
+ * 게시글 삭제를 처리합니다.
  */
 async function handleDelete() {
     if (!currentBoardId) {
-        console.error('삭제할 게시글 ID를 찾을 수 없습니다.');
         showStatusMessage('삭제할 게시글 ID를 찾을 수 없습니다.', true);
         return;
     }
 
-    // 💡 [규칙 준수] window.confirm 대신, 실제 앱에서는 커스텀 모달이 필요합니다.
-    // 여기서는 일단 삭제를 진행하며 콘솔에 메시지를 남깁니다.
-    // TODO: 커스텀 모달 UI를 구현하여 사용자에게 삭제 확인을 받아야 합니다.
-    console.warn(`[TODO: Custom Modal] ID ${currentBoardId}번 게시글을 삭제 시도합니다.`);
-    
     try {
-        await apiDelete(`/boards/${currentBoardId}`);
+        // 이 API 호출은 서버의 Security 검증을 거쳐 권한이 없으면 403 Forbidden 에러가 발생해야 합니다.
+        await apiDelete(`/boards/${currentBoardId}`); 
         showStatusMessage('게시글이 성공적으로 삭제되었습니다.');
-        console.log('✅ 게시글 삭제 성공');
         
         setTimeout(() => {
             window.location.href = '../index.html';
         }, 800);
 
     } catch (error) {
+        // 서버에서 권한 없음(403) 에러를 보냈을 때도 처리 가능
+        const errorMessage = error.status === 403 ? '권한이 없습니다. 작성자만 삭제할 수 있습니다.' : (error.message || '서버 오류');
         console.error("게시글 삭제 실패 : ", error);
-        showStatusMessage(`게시글 삭제 실패: ${error.message || '서버 오류'}`, true);
+        showStatusMessage(`게시글 삭제 실패: ${errorMessage}`, true);
     }
 }
 
 // DOM이 완전히 로드된 후 실행됩니다.
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. ID를 먼저 추출하여 전역 변수에 저장
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Firebase 인증 초기화 과정을 생략하고 바로 게시글 ID를 확보합니다.
     currentBoardId = getBoardIdFromUrl();
-
-    // 2. 상세 정보를 불러옵니다.
     fetchBoardDetail(currentBoardId); 
 
     const deleteButton = document.getElementById('delete-button');
     const editButton = document.getElementById('edit-button');
     const backButton = document.getElementById('back-button');
-    const likeButton = document.getElementById('like-button'); // ⭐️ 추가: 좋아요 버튼
+    const likeButton = document.getElementById('like-button');
 
-    // 목록으로 돌아가기
+    // 이벤트 리스너 등록
     if (backButton) {
         backButton.addEventListener('click', (e) => {
-            e.preventDefault(); // a 태그의 기본 동작을 막고
-            window.location.href = '../index.html'; // JS로 이동
+            e.preventDefault(); 
+            window.location.href = '../index.html'; 
         });
     }
-
-    // 수정 버튼
+    // 수정/삭제 버튼 리스너 
     if (editButton) {
         editButton.addEventListener('click', () => {
             if (currentBoardId) {
+                // 버튼이 보이는 상태라면 권한이 있다고 서버가 확인해 준 것입니다.
                 window.location.href = `../board/write.html?id=${currentBoardId}`; 
-            } else {
-                console.error("수정할 게시글 ID를 찾을 수 없습니다.");
             }
         });
     }
-
-    // 삭제 버튼
     if (deleteButton) { 
         deleteButton.addEventListener('click', handleDelete); 
     }
-
-    // ⭐️ 추가: 좋아요 버튼 리스너
     if (likeButton) {
         likeButton.addEventListener('click', handleLikeClick);
     }
@@ -195,25 +195,20 @@ async function fetchBoardDetail(boardId) {
     const errorMessageElement = document.getElementById('error-message');
     const boardDetailContainer = document.getElementById('board-detail-container');
     
-    // 1. ID 유효성 검사
     if (!boardId) {
         showStatusMessage("오류: 게시글 ID가 URL에 없습니다.", true);
         return;
     }
 
-    // 로딩 메시지 표시 (detail.html에 loading-message ID가 없으므로 container를 숨김)
     if (boardDetailContainer) boardDetailContainer.style.opacity = 0;
     if (errorMessageElement) errorMessageElement.classList.add('hidden');
 
 
     try {
-        // API 호출: /boards/{boardId}
+        // 서버에서 isAuthor 플래그를 포함한 DTO를 반환한다고 가정합니다.
         const board = await apiGet(`/boards/${boardId}`);
         
-        // 2. API 요청 성공 및 데이터 바인딩
         if (boardDetailContainer) boardDetailContainer.style.opacity = 1;
-
-        console.log('✅ API 요청 성공. 데이터:', board);
         
         if (board && board.boardId) {
             bindBoardData(board);
@@ -222,21 +217,19 @@ async function fetchBoardDetail(boardId) {
         }
 
     } catch (error) {
-        // 3. API 요청 실패 처리
         const status = error.status || 'Unknown'; 
         const message = error.message || '서버 응답 오류';
 
         console.error('❌ API GET 요청 실패:', error);
 
-        // detail.html 구조에 맞게 오류 메시지 출력
         const errorDiv = document.getElementById('detail-content');
         if (errorDiv) {
             errorDiv.innerHTML = `<p class="text-red-500 font-bold">
                                          게시글을 불러오는 데 실패했습니다. 
                                          (상태 코드: ${status}, 메시지: ${message})
-                                     </p>`;
+                                      </p>`;
         }
-        if (boardDetailContainer) boardDetailContainer.style.opacity = 1; // 오류 메시지를 보여주기 위해 컨테이너는 유지
+        if (boardDetailContainer) boardDetailContainer.style.opacity = 1; 
     }
 }
 
@@ -254,72 +247,87 @@ function formatBytes(bytes, decimals = 2) {
 
 
 /**
- * DTO 데이터를 HTML 요소에 바인딩합니다.
+ * DTO 데이터를 HTML 요소에 바인딩하고 권한을 확인합니다.
  */
 function bindBoardData(board) {
-    // 헤더 정보 바인딩 (detail.html의 ID와 일치하도록 수정)
-    document.getElementById('detail-title').textContent = board.title || '제목 없음';
-    document.getElementById('detail-author').textContent = board.nickname || '익명';
-    document.getElementById('detail-date').textContent = board.inputDate || 'N/A';
-    document.getElementById('detail-views').textContent = board.views || 0;
     
-    // 좋아요 정보 바인딩 및 UI 초기화
-    document.getElementById('detail-likes').textContent = board.likes || 0; 
-    // 백엔드에서 현재 사용자가 좋아요를 눌렀는지 여부를 알려주는 필드를 가정합니다.
-    const isLiked = board.isLikedByCurrentUser === true; 
-    updateLikeButtonUI(isLiked);
+    // 1. 제목 바인딩
+    const titleElement = document.getElementById('detail-title');
+    if (titleElement) titleElement.textContent = board.title || '제목 없음';
 
-
-    // 💡 핵심 변경: 마크다운 렌더링 결과(HTML)를 innerHTML로 삽입합니다.
+    // 2. 닉네임 바인딩
+    const nicknameElement = document.getElementById('detail-nickname');
+    if (nicknameElement) nicknameElement.textContent = board.member?.nickname || '익명';
+    
+    // 3. 날짜 바인딩
+    const dateElement = document.getElementById('detail-date');
+    if (dateElement) dateElement.textContent = board.inputDate || 'N/A';
+    
+    // 4. 조회수 바인딩
+    const viewsElement = document.getElementById('detail-views');
+    if (viewsElement) viewsElement.textContent = board.views || 0;
+    
+    // 5. 좋아요 정보 바인딩 및 UI 초기화
+    const likesElement = document.getElementById('detail-likes');
+    if (likesElement) {
+        likesElement.textContent = board.likes || 0; 
+        const isLiked = board.isLikedByCurrentUser === true; 
+        updateLikeButtonUI(isLiked);
+    }
+    
+    // 6. 내용 바인딩
     const contentElement = document.getElementById('detail-content');
     if (contentElement) {
         contentElement.innerHTML = board.content || '<p class="text-gray-400">내용 없음</p>';
     }
 
-    // 파일 관련 DOM 요소
+    // 7. 파일 정보 바인딩 (기존 로직 유지)
     const fileInfoDiv = document.getElementById('file-info');
     const imageDisplayArea = document.getElementById('image-display-area');
     const boardImage = document.getElementById('board-image');
 
-    // 기본적으로 이미지 미리보기 영역은 숨깁니다.
-    imageDisplayArea.classList.add('hidden');
+    if (imageDisplayArea) imageDisplayArea.classList.add('hidden');
 
-    // 파일이 첨부되었는지 확인
     if (board.filePath && board.fileOriginalName) { 
-        // 파일 정보가 있을 경우의 스타일 적용
-        fileInfoDiv.classList.remove('bg-gray-100', 'text-sm', 'text-gray-700'); 
-        fileInfoDiv.classList.add('p-4', 'bg-blue-50', 'border', 'border-blue-200');
+        if (fileInfoDiv) {
+            fileInfoDiv.classList.remove('bg-gray-100', 'text-sm', 'text-gray-700'); 
+            fileInfoDiv.classList.add('p-4', 'bg-blue-50', 'border', 'border-blue-200');
+        }
         
-        // 파일 확장자 확인 (png 추가)
         const fileExtension = board.fileOriginalName.split('.').pop().toLowerCase();
         const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension);
 
-        // 1. 파일 다운로드 링크 정보 (이미지 여부와 상관없이 항상 표시)
-        fileInfoDiv.innerHTML = `
-            <div class="flex justify-between items-center">
-                <span class="font-semibold text-blue-700">첨부 파일: </span>
-                <a href="${board.filePath}" target="_blank" 
-                    class="text-blue-500 hover:text-blue-700 hover:underline transition">
-                    ${board.fileOriginalName} 
-                    <span class="text-xs text-gray-500 ml-2">(${formatBytes(board.fileSize)})</span>
-                </a>
-            </div>
-        `;
+        if (fileInfoDiv) {
+            fileInfoDiv.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-blue-700">첨부 파일: </span>
+                    <a href="${board.filePath}" target="_blank" 
+                        class="text-blue-500 hover:text-blue-700 hover:underline transition">
+                        ${board.fileOriginalName} 
+                        <span class="text-xs text-gray-500 ml-2">(${formatBytes(board.fileSize)})</span>
+                    </a>
+                </div>
+            `;
+        }
 
-        // 2. 이미지 미리보기 (이미지인 경우에만 표시)
         if (isImage) {
             if (boardImage) {
                 boardImage.src = board.filePath;
                 boardImage.alt = board.fileOriginalName;
             }
-            // 이미지 미리보기 영역을 보여줍니다.
-            imageDisplayArea.classList.remove('hidden');
+            if (imageDisplayArea) imageDisplayArea.classList.remove('hidden');
         }
 
     } else {
-        // 파일 정보가 없을 경우의 스타일 적용
-        fileInfoDiv.classList.remove('p-4', 'bg-blue-50', 'border', 'border-blue-200');
-        fileInfoDiv.classList.add('bg-gray-100', 'text-sm', 'text-gray-700');
-        fileInfoDiv.textContent = '첨부 파일 없음';
+        if (fileInfoDiv) {
+            fileInfoDiv.classList.remove('p-4', 'bg-blue-50', 'border', 'border-blue-200');
+            fileInfoDiv.classList.add('bg-gray-100', 'text-sm', 'text-gray-700');
+            fileInfoDiv.textContent = '첨부 파일 없음';
+        }
     }
+    
+    // 8. ⭐️ 서버에서 제공하는 isAuthor 플래그를 사용하여 버튼 토글
+    // 서버가 DTO에 isAuthor 필드를 담아 보냈다고 가정합니다.
+    const isAuthor = board.isAuthor === true; 
+    toggleEditDeleteButtons(isAuthor);
 }
