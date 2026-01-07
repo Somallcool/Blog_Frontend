@@ -1,0 +1,66 @@
+/* navbar.css (개선된 디자인 및 중앙 정렬) */
+
+/* 1. 네비게이션 바 배경 및 고정 */
+.navbar {
+    background-color: #2c3e50; /* 짙은 네이비/다크 그레이 */
+    color: white; 
+    padding: 0 20px; /* 내부 컨텐츠는 중앙 정렬 래퍼가 담당 */
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center; /* 내부 콘텐츠 래퍼를 중앙 정렬 */
+    align-items: center;
+    height: 60px; /* 높이를 명확히 지정하여 깔끔함 유지 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+/* 2. ✅ 핵심: 콘텐츠를 중앙으로 모아주는 래퍼 */
+/* 회원가입 폼(#main-container)의 넓이에 맞춰서 max-width를 줍니다. */
+.nav-content {
+    width: 100%;
+    max-width: 1100px; /* 넓은 화면에서도 보기 좋게 최대 너비 설정 */
+    display: flex;
+    justify-content: space-between; /* 로고와 링크를 양 끝에 배치 */
+    align-items: center;
+    height: 100%; /* 부모의 높이를 상속 */
+}
+
+/* 3. 로고 스타일 */
+.nav-logo {
+    font-size: 26px;
+    font-weight: 700; /* 더 굵게 */
+    color: #ecf0f1; /* 밝은 회색으로 대비 강조 */
+    letter-spacing: 0.5px;
+    padding-left: 20px; /* 왼쪽 여백 */
+}
+
+/* 4. 링크 목록 스타일 */
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-weight: 500;
+}
+
+/* 5. 개별 링크 항목 스타일 */
+.nav-links li {
+    margin-left: 15px; /* 항목 사이 간격 좁힘 */
+}
+
+/* 6. 링크 텍스트 스타일 */
+.nav-links a {
+    color: #bdc3c7; /* 부드러운 회색 */
+    text-decoration: none;
+    padding: 10px 15px; /* 패딩을 늘려 클릭 영역 확보 */
+    display: block; /* a 태그가 패딩을 전체적으로 갖도록 */
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+/* 7. 링크 위에 마우스를 올렸을 때 스타일 */
+.nav-links a:hover {
+    color: white; /* 텍스트 색상 강조 */
+    background-color: #34495e; /* 배경색을 약간 밝게 변경 */
+}

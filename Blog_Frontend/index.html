@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semicolon | 메인 화면</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    
+</head>
+<style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+        /* JS에서 동적으로 삽입되는 line-clamp-4 CSS */
+        .line-clamp-4 {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Velog 스타일 카드 높이 고정 (약 25rem / 400px) */
+        .board-card {
+            height: 25rem; /* 400px */
+        }
+    </style>
+<!-- 
+navbar 추가하는 방법
+ 파일 위치마다 다름.
+ 최상위 폴더 Blog_Frontend 경로일 경우: 현재 index.html페이지처럼 적용하면 됨
+ 하위 폴더(member, board) : 
+    - <head>태그에 <link rel="stylesheet" href="../../navbar.css"> 추가
+    - 하위 <script>태그 위치에 <script src="../../load_navbar.js"></script> 추가 
+ 기본 적용 방법 
+    - ( ./ ) = 현재 폴더와 navbar파일 같은 위치
+    - ( ../ ) = 상위 폴더, 현재 폴더의 부모 폴더에 위치
+    - ( / ) = 서버 주소 찾는것같음 http://localhost:5500/Blog_Frontend/style.css
+    - ( 비었다 ) = 현재 위치 기준으로 보면 될 듯
+-->
+<body>
+    <div id="navbar-placeholder"></div>
+    
+    <!-- 전체 콘텐츠 컨테이너를 Velog 스타일로 변경 -->
+    <div class="container container-velog mx-auto py-10 px-4">
+        
+        <header class="flex justify-between items-center mb-8 pb-4 border-b-2 border-indigo-200">
+            <h1 class="text-4xl font-extrabold text-gray-900">최신 포스트</h1>
+            
+            <a id="write-button" href="./board/write.html" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-xl hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                새 글 작성
+            </a>
+        </header>
+
+       <!-- Main Content Container (Fixed Width & Centered) -->
+    <main class="w-full">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+            
+            <!-- 게시글 목록 컨테이너 (Grid) -->
+            <div id="board-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 게시글 카드들이 여기에 추가됩니다. -->
+            </div>
+            
+            <!-- 로딩 메시지 -->
+            <div id="loadingMessage" class="hidden text-center mt-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-green-500 border-gray-200"></div>
+                <p class="text-gray-500 mt-2">게시글을 불러오는 중...</p>
+            </div>
+
+            <!-- 에러 메시지 -->
+            <div id="errorMessage" class="hidden text-center mt-12 p-4 bg-red-100 border border-red-400 text-red-700 rounded" role="alert">
+                API 요청 중 오류가 발생했습니다.
+            </div>
+
+            <!-- 목록 끝 메시지 -->
+            <div id="endOfListMessage" class="hidden text-center mt-12 text-gray-500">
+                <p>- 모든 게시글을 불러왔습니다 -</p>
+            </div>
+        </div>
+    </main>
+    <script src="load_navbar.js"></script> 
+    <script type="module" src="./board/list.js"></script>
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
