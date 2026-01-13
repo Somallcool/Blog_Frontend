@@ -10,22 +10,14 @@ import {
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Navbar from "./components/common/Navbar.jsx";
-import Login from "./components/member/Lolgin.jsx";
+import Login from "./components/member/Login.jsx";
+import Signup from "./components/member/Signup.jsx";
 import "./App.css";
 
-// 임시 컴포넌트들 (나중에 실제 컴포넌트로 교체)
 function Home() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>홈 페이지</h1>
-    </div>
-  );
-}
-
-function Signup() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>회원가입 페이지</h1>
     </div>
   );
 }

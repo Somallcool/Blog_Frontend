@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import "./Login.css";
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
 const KAKAO_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/kakao/url`;
