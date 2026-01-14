@@ -1,26 +1,29 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8000';
-const API_V1_PATH = '/api/v1';
-
+const API_BASE_URL = "http://localhost:8000";
+const API_V1_PATH = "/api/v1";
 
 export const api = axios.create({
   baseURL: `${API_BASE_URL}${API_V1_PATH}`,
   Headers: {
-    'Accept': 'application/json, text/plain, */*'
+    Accept: "application/json, text/plain, */*",
   },
-  withCredentials: true
+  withCredentials: true,
 });
 
 function getToken() {
-  return sessionStorage.getItem('jwtToken') || localStorage.getItem('jwtToken') || null;
+  return (
+    sessionStorage.getItem("jwtToken") ||
+    localStorage.getItem("jwtToken") ||
+    null
+  );
 }
 
-api.intercetpors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token = getToken();
     if (token) {
-      config.Headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -29,24 +32,24 @@ api.intercetpors.request.use(
   }
 );
 
-api.intercetpors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
-    const errorDetail = error.response?.data?.message || error.response?.data || error.message;
+    const errorDetail =
+      error.response?.data?.message || error.response?.data || error.message;
 
     if (status == 401) {
       sessionStorage.clear();
       localStorage.clear();
-      window.location.href = '/login';
-    }
-    else if (status == 403) {
-      console.error('403 Forbidden : 접근 권한이 없습니다.');
-      alert('접근 권한이 없습니다.');
+      window.location.href = "/login";
+    } else if (status == 403) {
+      console.error("403 Forbidden : 접근 권한이 없습니다.");
+      alert("접근 권한이 없습니다.");
     }
 
     const enhancedError = new Error(
-      `API 요청 실패 : ${status || 'Network Error'} - ${errorDetail}`
+      `API 요청 실패 : ${status || "Network Error"} - ${errorDetail}`
     );
     enhancedError.status = status;
     enhancedError.originalError = error;
@@ -60,12 +63,12 @@ api.intercetpors.response.use(
  * @returns {Promise<Object>} 서버로부터 받은 데이터
  */
 
-export async function apiget(endpoint) {
+export async function apiGet(endpoint) {
   try {
     const response = await api.get(endpoint);
     return response.data;
   } catch (error) {
-    console.error('API GET 요청 실패 :', error);
+    console.error("API GET 요청 실패 :", error);
     throw error;
   }
 }
@@ -81,13 +84,12 @@ export async function apiPost(endpoint, formData) {
   try {
     const response = await api.post(endpoint, formData, {
       headers: {
-        'Content-type': 'multipart/form-data'
-      }
+        "Content-type": "multipart/form-data",
+      },
     });
     return response.data;
-  }
-  catch (error) {
-    console.error('API POST 요청 실패 :', error);
+  } catch (error) {
+    console.error("API POST 요청 실패 :", error);
     throw error;
   }
 }
@@ -100,16 +102,15 @@ export async function apiPost(endpoint, formData) {
  */
 
 export async function apiPostJson(endpoint, jsonBody) {
-  try{
+  try {
     const response = await api.post(endpoint, jsonBody, {
       headers: {
-        'Content-type' : 'application/json'
-      }
+        "Content-type": "application/json",
+      },
     });
     return response.data;
-  }
-  catch (error) {
-    console.error('API JSON POST 요청 실패 : ', error);
+  } catch (error) {
+    console.error("API JSON POST 요청 실패 : ", error);
     throw error;
   }
 }
@@ -124,12 +125,12 @@ export async function apiPut(endpoint, jsonBody) {
   try {
     const response = await api.put(endpoint, jsonBody, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
     return response.data;
   } catch (error) {
-    console.error('API PUT 요청 실패:', error);
+    console.error("API PUT 요청 실패:", error);
     throw error;
   }
 }
@@ -144,15 +145,15 @@ export async function apiDelete(endpoint) {
     await api.delete(endpoint);
     return null;
   } catch (error) {
-    console.error('API DELETE 요청 실패:', error);
+    console.error("API DELETE 요청 실패:", error);
     throw error;
   }
 }
 
-export function showMessage(message, type = 'error') {
+export function showMessage(message, type = "error") {
   console.log(`[${type.toUpperCase()} Message]: ${message}`);
   // 필요시 토스트 메시지 라이브러리로 대체 가능
-  if (type === 'error') {
+  if (type === "error") {
     alert(message);
   }
 }

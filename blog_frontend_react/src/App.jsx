@@ -13,20 +13,13 @@ import Navbar from "./components/common/Navbar.jsx";
 import Login from "./components/member/Login.jsx";
 import Signup from "./components/member/Signup.jsx";
 import Mypage from "./components/member/Mypage.jsx";
+import BoardList from "./components/board/BoardList.jsx";
 import "./App.css";
 
 function Home() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>홈 페이지</h1>
-    </div>
-  );
-}
-
-function BoardList() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>게시판 목록</h1>
     </div>
   );
 }
@@ -84,7 +77,7 @@ function AppContent() {
       <TokenHandler />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<BoardList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route
