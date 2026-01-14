@@ -12,20 +12,13 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Navbar from "./components/common/Navbar.jsx";
 import Login from "./components/member/Login.jsx";
 import Signup from "./components/member/Signup.jsx";
+import Mypage from "./components/member/Mypage.jsx";
 import "./App.css";
 
 function Home() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>홈 페이지</h1>
-    </div>
-  );
-}
-
-function Mypage() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>마이페이지</h1>
     </div>
   );
 }
