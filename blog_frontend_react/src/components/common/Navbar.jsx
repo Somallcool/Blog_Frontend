@@ -6,7 +6,7 @@ const LOGOUT_API_URL = "http://localhost:8000/api/v1/logout";
 
 function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
-  const naviage = useNavigate();
+  const navigage = useNavigate();
 
   const handleLogout = async (event) => {
     event.preventDefault();
@@ -27,7 +27,7 @@ function Navbar() {
 
       logout();
       alert("로그아웃되었습니다.");
-      naviage("/");
+      navigage("/");
     }
   };
   return (
