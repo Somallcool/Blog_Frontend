@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
   text-align: center;
 }
 
@@ -39,4 +39,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.main-content {
+  max-width: 1280px; /* 기존 root에 있던 제한을 여기로 이동 */
+  margin: 0 auto; /* 본문만 중앙 정렬 */
+  padding: 2rem; /* 기존 root에 있던 여백을 여기로 이동 */
+  width: 100%;
+  box-sizing: border-box;
 }

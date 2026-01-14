@@ -14,20 +14,13 @@ import Login from "./components/member/Login.jsx";
 import Signup from "./components/member/Signup.jsx";
 import Mypage from "./components/member/Mypage.jsx";
 import BoardList from "./components/board/BoardList.jsx";
+import BoardDetail from "./components/board/BoardDetail.jsx";
 import "./App.css";
 
 function Home() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>홈 페이지</h1>
-    </div>
-  );
-}
-
-function BoardDetail() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>게시글 상세</h1>
     </div>
   );
 }
@@ -74,6 +67,7 @@ function AppContent() {
   return (
     <div className="App">
       <Navbar />
+
       <TokenHandler />
       <main className="main-content">
         <Routes>
