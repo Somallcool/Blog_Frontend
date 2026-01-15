@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, use } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { apiGet, apiPost, apiPut, apiPostJson } from "../../services/api";
 import "./BoardWrite.css";
@@ -43,7 +43,7 @@ function BoardWrite() {
   }, []);
 
   const showMessage = (message, type = "error") => {
-    statusMessage(message);
+    setStatusMessage(message);
     setStatusType(type);
 
     setTimeout(() => {
@@ -168,6 +168,9 @@ function BoardWrite() {
           text +
           value.substring(startIndex + targetText.length);
         newCursorPos = startIndex + text.length;
+      } else {
+        value = value.substring(0, start) + text + value.substring(end);
+        newCursorPos = start + text.length;
       }
     }
 
@@ -177,8 +180,9 @@ function BoardWrite() {
     setTimeout(() => {
       textarea.selectionStart = textarea.selectionEnd = newCursorPos;
       textarea.focus();
-    }, 0);
+    }, 10);
   };
+
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -210,6 +214,10 @@ function BoardWrite() {
     try {
       const imageUrl = await uploadImageToServer(imageFile);
       const markdownSyntax = `\n![${imageFile.name}](${imageUrl})\n`;
+
+      console.log("마크다운 삽입 :", markdownSyntax);
+      console.log("로딩 텍스트 :", loadingText);
+
       updateTextareaContent(markdownSyntax, "replace", loadingText);
     } catch (error) {
       console.error("이미지 처리 실패 : ", error);
