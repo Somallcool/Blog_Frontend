@@ -15,23 +15,8 @@ import Signup from "./components/member/Signup.jsx";
 import Mypage from "./components/member/Mypage.jsx";
 import BoardList from "./components/board/BoardList.jsx";
 import BoardDetail from "./components/board/BoardDetail.jsx";
+import BoardWrite from "./components/board/BoardWrite.jsx";
 import "./App.css";
-
-function Home() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>홈 페이지</h1>
-    </div>
-  );
-}
-
-function BoardWrite() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>글쓰기</h1>
-    </div>
-  );
-}
 
 // 인증이 필요한 라우트 보호 컴포넌트
 function PrivateRoute({ children }) {
