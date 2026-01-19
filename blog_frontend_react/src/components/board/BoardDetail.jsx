@@ -178,12 +178,13 @@ function BoardDetail() {
     ["jpg", "jpeg", "png", "gif", "webp"].includes(
       board.fileOriginalName.split(".").pop().toLowerCase()
     );
-
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    return dateString.substring(2, 10);
+  };
   return (
     <div className="board-detail-page">
       <div className="detail-container">
-        <h1 className="page-title">게시글 상세</h1>
-
         {/* 제목 */}
         <div className="title-section">
           <h2>{board.title || "제목 없음"}</h2>
@@ -195,7 +196,7 @@ function BoardDetail() {
             <span>
               작성자: <strong>{board.member?.nickname || "익명"}</strong>
             </span>
-            <span>작성일: {board.inputDate || "N/A"}</span>
+            <span>작성일: {formatDate(board.inputDate) || "N/A"}</span>
           </div>
 
           <div className="meta-right">
