@@ -113,7 +113,17 @@ function BoardList() {
       date.getMonth() + 1
     }월 ${date.getDate()}일`;
   };
-
+  const stripmarkdownAndHtml = (text) => {
+    if (!text) return "";
+    let cleanText = text
+      .replace(/<[^>]*>/g, "")
+      .replace(/!\[.*\]\(.*\)/g, "")
+      .replace(/\[.*\]\(.*\)/g, "")
+      .replace(/[#*|>_`-]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    return cleanText;
+  };
   return (
     <div className="board-list-page">
       <div className="container-velog">
@@ -154,7 +164,9 @@ function BoardList() {
                     {/* 내용 */}
                     <div className="card-content">
                       <h2 className="card-title">{board.title}</h2>
-                      <p className="card-summary">{summaryText}</p>
+                      <p className="card-summary">
+                        {stripmarkdownAndHtml(summaryText)}
+                      </p>
 
                       {/* 메타 정보 */}
                       <div className="card-meta">
