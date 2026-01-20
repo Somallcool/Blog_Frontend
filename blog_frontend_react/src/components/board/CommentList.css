@@ -1,0 +1,267 @@
+.comment-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.comment-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.comment-count {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+/* 댓글 작성 폼 */
+.comment-form {
+  margin-bottom: 2rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.comment-form textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.char-count {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.comment-form button {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.comment-form button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.comment-form button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* 댓글 목록 */
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 3rem 0;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* 댓글 아이템 */
+.comment-item {
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.author-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.comment-date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.edited-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* 댓글 액션 버튼 */
+.comment-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.comment-actions button {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.btn-edit:hover {
+  background-color: #d1d5db;
+}
+
+.btn-delete {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background-color: #fecaca;
+}
+
+.btn-save {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.btn-save:hover {
+  background-color: #bfdbfe;
+}
+
+.btn-cancel {
+  background-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-cancel:hover {
+  background-color: #d1d5db;
+}
+
+/* 댓글 내용 */
+.comment-content {
+  margin-bottom: 0.75rem;
+}
+
+.comment-content p {
+  margin: 0;
+  color: #374151;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.comment-content textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.comment-content textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* 댓글 푸터 */
+.comment-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.75rem;
+}
+
+.like-button:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.like-button.liked {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.like-icon {
+  font-size: 1rem;
+}
+
+.like-count {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.like-button.liked .like-count {
+  color: #dc2626;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 640px) {
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .comment-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .comment-author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

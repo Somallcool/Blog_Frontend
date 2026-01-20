@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { apiDelete, apiGet, apiPost } from "../../../../Blog_Frontend/app";
 import { useParams, useNavigate } from "react-router-dom";
 import "./BoardDetail.css";
+import CommentList from "./CommentList.jsx";
 
 function BoardDetail() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ function BoardDetail() {
 
       console.error("API GET 요청 실패 :", error);
       setError(
-        `게시글을 불러오는 데 실패했습니다.(상태코드: ${status}, 메세지 : ${message})`
+        `게시글을 불러오는 데 실패했습니다.(상태코드: ${status}, 메세지 : ${message})`,
       );
     } finally {
       setLoading(false);
@@ -176,7 +177,7 @@ function BoardDetail() {
     board.filePath &&
     board.fileOriginalName &&
     ["jpg", "jpeg", "png", "gif", "webp"].includes(
-      board.fileOriginalName.split(".").pop().toLowerCase()
+      board.fileOriginalName.split(".").pop().toLowerCase(),
     );
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -285,6 +286,8 @@ function BoardDetail() {
             목록으로
           </button>
         </div>
+        {/* 댓글 컴포넌트 추가 */}
+        <CommentList boardId={id} />
       </div>
     </div>
   );
