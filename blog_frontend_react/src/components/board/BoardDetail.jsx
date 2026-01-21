@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { apiDelete, apiGet, apiPost } from "../../../../Blog_Frontend/app";
 import { useParams, useNavigate } from "react-router-dom";
+import {
+  checkSubscription,
+  toggleSubscription,
+} from "../../services/subscriptionApi";
 import "./BoardDetail.css";
 
 function BoardDetail() {
@@ -12,6 +16,8 @@ function BoardDetail() {
   const [error, setError] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [isStatusError, setIsStatusError] = useState(false);
+
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -37,6 +43,11 @@ function BoardDetail() {
 
       if (data && data.boardId) {
         setBoard(data);
+
+        const writerId = data.member?.memberId || data.memberId;
+        if (writerId && !data.isAuthor) {
+          checkSubscribeStatus(writerId);
+        }
       } else {
         throw new Error("조회된 게시글 데이터가 유효하지 않습니다.");
       }
@@ -46,10 +57,36 @@ function BoardDetail() {
 
       console.error("API GET 요청 실패 :", error);
       setError(
-        `게시글을 불러오는 데 실패했습니다.(상태코드: ${status}, 메세지 : ${message})`
+        `게시글을 불러오는 데 실패했습니다.(상태코드: ${status}, 메세지 : ${message})`,
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkSubscribeStatus = async (targetId) => {
+    const status = await checkSubscription(targetId);
+    setIsSubscribed(status);
+  };
+
+  const handleSubscribeClick = async () => {
+    const writerId = board?.member?.memberId || board?.memberId;
+    if (!writerId) {
+      showStatusMessage("작성자 정보를 찾을 수 없습니다.", true);
+      return;
+    }
+    try {
+      const newState = await toggleSubscription(writerId);
+      setIsSubscribed(newState);
+      showStatusMessage(newState ? "구독했습니다." : "구독을 취소했습니다.");
+    } catch (error) {
+      console.error("구독 토글 실패", error);
+      if (error.response?.status == 401) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/login");
+      } else {
+        showStatusMessage("구독 처리에 실패했습니다.", true);
+      }
     }
   };
 
@@ -176,7 +213,7 @@ function BoardDetail() {
     board.filePath &&
     board.fileOriginalName &&
     ["jpg", "jpeg", "png", "gif", "webp"].includes(
-      board.fileOriginalName.split(".").pop().toLowerCase()
+      board.fileOriginalName.split(".").pop().toLowerCase(),
     );
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -195,6 +232,15 @@ function BoardDetail() {
           <div className="meta-left">
             <span>
               작성자: <strong>{board.member?.nickname || "익명"}</strong>
+              {/* 구독 버튼 */}
+              {!board.isAuthor && (
+                <button
+                  onClick={handleSubscribeClick}
+                  className={`subscribe-btn ${isSubscribed ? "active" : ""}`}
+                >
+                  {isSubscribed ? "구독 중" : "구독 +"}
+                </button>
+              )}
             </span>
             <span>작성일: {formatDate(board.inputDate) || "N/A"}</span>
           </div>

@@ -344,3 +344,38 @@
     align-items: flex-start;
   }
 }
+/* 작성자 정보와 구독 버튼을 감싸는 영역 */
+.writer-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px; /* 닉네임과 버튼 사이 간격 */
+}
+
+/* 구독 버튼 스타일 */
+.subscribe-btn {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.subscribe-btn:hover {
+  background-color: #f1f1f1;
+}
+
+/* 구독 중일 때 (활성화) */
+.subscribe-btn.active {
+  background-color: #3b82f6; /* 파란색 */
+  color: white;
+  border-color: #3b82f6;
+  font-weight: bold;
+}
+
+.subscribe-btn.active:hover {
+  background-color: #2563eb;
+}
