@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import NotificationBell from "./NotificationBell";
 import "./Navbar.css";
 
 const LOGOUT_API_URL = "http://localhost:8000/api/v1/logout";
@@ -43,6 +44,10 @@ function Navbar() {
 
           {isAuthenticated && user?.nickname ? (
             <>
+              {/* 알림 벨 추가 */}
+              <li style={{ display: "flex", alignItems: "center" }}>
+                <NotificationBell />
+              </li>
               {/*로그인 상태 */}
               <li className="user-greeting">
                 <span>{user.nickname}님,반갑습니다.</span>
@@ -61,9 +66,9 @@ function Navbar() {
           ) : (
             <>
               {/*로그아웃 상태 */}
-              <li>
+              {/* <li>
                 <Link to="/signup">회원가입</Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/login">로그인</Link>
               </li>

@@ -1,0 +1,87 @@
+/* 전체 래퍼 */
+.notification-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px; /* 옆 요소와 간격 */
+}
+
+/* 종 버튼 */
+.bell-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+}
+
+.bell-btn:hover {
+  transform: scale(1.1); /* 살짝 커지는 효과 */
+}
+
+/* 빨간 뱃지 */
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ef4444; /* 빨간색 */
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border: 1px solid white;
+}
+
+/* 드롭다운 박스 */
+.notification-dropdown {
+  position: absolute;
+  top: 120%; /* 버튼 바로 아래 */
+  right: -10px;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown-header {
+  padding: 10px 15px;
+  background-color: #f9fafb;
+  font-weight: bold;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px; /* 너무 길어지면 스크롤 */
+  overflow-y: auto;
+}
+
+.noti-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+.noti-item:last-child {
+  border-bottom: none;
+}
+
+.noti-item:hover {
+  background-color: #f9fafb;
+}
+
+.no-noti {
+  padding: 20px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
