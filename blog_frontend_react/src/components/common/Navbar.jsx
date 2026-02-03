@@ -31,6 +31,13 @@ function Navbar() {
       navigage("/");
     }
   };
+
+  const handleGuestBellClick = (e) => {
+    e.stopPropagation();
+
+    alert("로그인이 필요한 서비스입니다.");
+    navigage("/login");
+  };
   return (
     <nav className="navbar">
       <div className="nav-content">
@@ -38,9 +45,9 @@ function Navbar() {
           <Link to="/">Semicolon</Link>
         </div>
         <ul className="nav-links">
-          <li>
+          {/* <li>
             <Link to="/">홈</Link>
-          </li>
+          </li> */}
 
           {isAuthenticated && user?.nickname ? (
             <>
@@ -65,10 +72,19 @@ function Navbar() {
             </>
           ) : (
             <>
+              <li style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  onClickCapture={handleGuestBellClick}
+                  style={{ cursor: "pointer", display: "flex" }}
+                >
+                  <NotificationBell />
+                </div>
+              </li>
               {/*로그아웃 상태 */}
               {/* <li>
                 <Link to="/signup">회원가입</Link>
               </li> */}
+
               <li>
                 <Link to="/login">로그인</Link>
               </li>
