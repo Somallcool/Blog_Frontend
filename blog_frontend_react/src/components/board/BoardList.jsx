@@ -36,7 +36,7 @@ function BoardList() {
           // 기존 데이터에 이미 존재하는 ID인지 확인하여 중복 방지
           const existingIds = new Set(prev.map((b) => b.boardId));
           const filteredNewBoards = newBoards.filter(
-            (b) => !existingIds.has(b.boardId)
+            (b) => !existingIds.has(b.boardId),
           );
           return [...prev, ...filteredNewBoards];
         });
@@ -64,7 +64,7 @@ function BoardList() {
           fetchBoardList();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (observerTarget.current) {
@@ -83,13 +83,13 @@ function BoardList() {
   };
 
   const handleWriteClick = () => {
-    navigate("/board/write");
+    alert("로그인이 필요한 서비스입니다.");
   };
 
   const extractImage = (content) => {
     if (!content) return null;
     const imgMacth = content.match(
-      /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/i
+      /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/i,
     );
     return imgMacth && imgMacth[1] ? imgMacth[1] : null;
   };
