@@ -17,6 +17,7 @@ import BoardList from "./components/board/BoardList.jsx";
 import BoardDetail from "./components/board/BoardDetail.jsx";
 import BoardWrite from "./components/board/BoardWrite.jsx";
 import "./App.css";
+import SearchPage from "./components/common/SearchPage.jsx";
 
 // 인증이 필요한 라우트 보호 컴포넌트
 function PrivateRoute({ children }) {
@@ -59,6 +60,7 @@ function AppContent() {
           <Route path="/" element={<BoardList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route
             path="/mypage"
             element={

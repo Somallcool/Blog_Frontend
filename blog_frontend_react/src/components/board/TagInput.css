@@ -1,0 +1,60 @@
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  background-color: white;
+  min-height: 40px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f5;
+  color: #0ca678; /* 벨로그 스타일 초록색 */
+  padding: 5px 10px;
+  border-radius: 15px;
+  margin-right: 8px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.tag-item:hover {
+  background-color: #e6fcf5;
+}
+
+.tag-remove-btn {
+  background: none;
+  border: none;
+  color: #868e96;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.tag-remove-btn:hover {
+  color: #ff6b6b;
+}
+
+.tag-input-field {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 5px;
+  flex-grow: 1; /* 남은 공간 차지 */
+  min-width: 150px;
+}

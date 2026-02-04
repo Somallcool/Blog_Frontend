@@ -206,6 +206,41 @@
   border: 1px solid #e5e7eb;
 }
 
+/* ✅ 태그 리스트 영역 (수정됨) */
+.board-tags-container {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+/* ✅ 개별 태그 배지 스타일 (수정됨) */
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+
+  /* 요청사항 적용: 색상 변함 없음, 짙은 회색 */
+  color: #1f2937 !important;
+  background-color: #f3f4f6;
+
+  border-radius: 1rem;
+  text-decoration: none !important; /* 밑줄 제거 */
+  transition: all 0.2s ease;
+}
+
+/* 태그 호버 효과 (배경색만 살짝 변경) */
+.tag-badge:hover {
+  background-color: #e5e7eb;
+  color: #1f2937 !important; /* 호버시에도 글자색 유지 */
+}
+
 /* 파일 섹션 */
 .file-section {
   display: flex;
@@ -302,6 +337,42 @@
   font-weight: 600;
 }
 
+/* 작성자 정보와 구독 버튼을 감싸는 영역 */
+.writer-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 구독 버튼 스타일 */
+.subscribe-btn {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.subscribe-btn:hover {
+  background-color: #f1f1f1;
+}
+
+/* 구독 중일 때 (활성화) */
+.subscribe-btn.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  font-weight: bold;
+}
+
+.subscribe-btn.active:hover {
+  background-color: #2563eb;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .detail-container {
@@ -343,39 +414,4 @@
     gap: 0.5rem;
     align-items: flex-start;
   }
-}
-/* 작성자 정보와 구독 버튼을 감싸는 영역 */
-.writer-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px; /* 닉네임과 버튼 사이 간격 */
-}
-
-/* 구독 버튼 스타일 */
-.subscribe-btn {
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  border-radius: 15px;
-  border: 1px solid #ccc;
-  background-color: white;
-  color: #555;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1;
-}
-
-.subscribe-btn:hover {
-  background-color: #f1f1f1;
-}
-
-/* 구독 중일 때 (활성화) */
-.subscribe-btn.active {
-  background-color: #3b82f6; /* 파란색 */
-  color: white;
-  border-color: #3b82f6;
-  font-weight: bold;
-}
-
-.subscribe-btn.active:hover {
-  background-color: #2563eb;
 }

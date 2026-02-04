@@ -62,7 +62,7 @@ function Login() {
         login({ nickname: result.nickname }, null);
 
         setStatusMessage(
-          `로그인 성공! ${result.nickname}님 환영합니다. 잠시 후 이동합니다.`
+          `로그인 성공! ${result.nickname}님 환영합니다. 잠시 후 이동합니다.`,
         );
         setStatusColor("green");
 
@@ -74,11 +74,7 @@ function Login() {
           message: `상태 코드 ${response.status} 오류`,
         }));
 
-        setStatusMessage(
-          `로그인 실패 ${
-            errorData.message || "아이디 또는 비밀번호가 일치하지 않습니다."
-          }`
-        );
+        setStatusMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
         setStatusColor("red");
       }
     } catch (error) {
@@ -106,7 +102,7 @@ function Login() {
         }
       } else {
         console.error(
-          `카카오 로그인 시작 요청 실패 (상태 : ${response.status})`
+          `카카오 로그인 시작 요청 실패 (상태 : ${response.status})`,
         );
         alert("카카오 로그인 요청에 실패했습니다.");
       }
@@ -132,7 +128,7 @@ function Login() {
         }
       } else {
         console.error(
-          `네이버 로그인 시작 요청 실패 (상태 : ${response.status})`
+          `네이버 로그인 시작 요청 실패 (상태 : ${response.status})`,
         );
         alert("네이버 로그인 요청에 실패했습니다.");
       }
@@ -148,7 +144,7 @@ function Login() {
       <div id="login-status">
         <form id="login-form" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">아이디:</label>
+            <label htmlFor="username">아이디</label>
             <input
               type="text"
               name="username"
@@ -158,7 +154,7 @@ function Login() {
             />
           </div>
           <div>
-            <label htmlFor="password">비밀번호:</label>
+            <label htmlFor="password">비밀번호</label>
             <input
               type="password"
               name="password"

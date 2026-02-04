@@ -2,12 +2,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import NotificationBell from "./NotificationBell";
 import "./Navbar.css";
+import { useRef, useState } from "react";
 
 const LOGOUT_API_URL = "http://localhost:8000/api/v1/logout";
 
 function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
   const navigage = useNavigate();
+
+  const handleSearch = (e) => {
+    if (e.key == "Enter" && searchKeyword.trim()) {
+      navigage(`/search?keyword=${searchKeyword}`);
+      setSearchKeyword("");
+    }
+  };
 
   const handleLogout = async (event) => {
     event.preventDefault();
@@ -48,6 +56,14 @@ function Navbar() {
           {/* <li>
             <Link to="/">홈</Link>
           </li> */}
+
+          <ul className="nav-links">
+            <li>
+              <Link to="/search" className="search-icon-link">
+                🔍
+              </Link>
+            </li>
+          </ul>
 
           {isAuthenticated && user?.nickname ? (
             <>
@@ -91,9 +107,9 @@ function Navbar() {
             </>
           )}
 
-          <li>
+          {/* <li>
             <a href="#">문의</a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>
