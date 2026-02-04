@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { apiGet, apiPost, apiPut, apiPostJson } from "../../services/api";
 import "./BoardWrite.css";
-
+import TagInput from "./TagInput";
 const allowedTypes = ["image/jpeg", "image/png", "image/gif", "/image/webp"];
 
 function BoardWrite() {
@@ -16,8 +16,10 @@ function BoardWrite() {
     content: "",
   });
 
+  const [tags, setTags] = useState([]);
+
   const [preview, setPreview] = useState(
-    '<p class="text-gray-400 italic">여기에 마크다운 미리보기가 표시됩니다.</p>'
+    '<p class="text-gray-400 italic">여기에 마크다운 미리보기가 표시됩니다.</p>',
   );
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState("error");
@@ -66,7 +68,7 @@ function BoardWrite() {
     } catch (error) {
       console.error(
         "인증 확인 실패. 로그인 페이지로 이동합니다.",
-        error.message
+        error.message,
       );
       alert("게시글 작성을 위해 로그인이 필요합니다.");
       navigate("/login");
@@ -76,7 +78,8 @@ function BoardWrite() {
   const loadBoardData = async (id) => {
     try {
       const article = await apiGet(`/boards/${id}`);
-
+      console.log(article);
+      console.log(article.tags);
       setFormData({
         title: article.title || "",
         nickname: article.nickname || "",
@@ -84,12 +87,14 @@ function BoardWrite() {
         content: article.content || "",
       });
 
+      setTags(article.tags || []);
+
       updatePreview(article.content || "");
     } catch (error) {
       console.error("수정할 게시글 데이터 로드 실패", error);
       showMessage(
         "게시글 정보를 불러오는데 실패했습니다. 목록으로 돌아갑니다.",
-        "error"
+        "error",
       );
 
       setTimeout(() => {
@@ -109,7 +114,7 @@ function BoardWrite() {
   const updatePreview = async (markdownText) => {
     if (!markdownText.trim()) {
       setPreview(
-        '<p class="text-gray-400 italic">여기에 마크다운 미리보기가 표시됩니다.</p>'
+        '<p class="text-gray-400 italic">여기에 마크다운 미리보기가 표시됩니다.</p>',
       );
       return;
     }
@@ -122,14 +127,14 @@ function BoardWrite() {
     } catch (error) {
       console.error("마크다운 미리보기 실패", error);
       setPreview(
-        '<p class="text-red-500">미리보기 로딩 중 오류가 발생했습니다.</p>'
+        '<p class="text-red-500">미리보기 로딩 중 오류가 발생했습니다.</p>',
       );
     }
   };
 
   const uploadImageToServer = async (file) => {
     console.log(
-      `[Server Upload Processing] 파일명 : ${file.name}, 타입 : ${file.type}`
+      `[Server Upload Processing] 파일명 : ${file.name}, 타입 : ${file.type}`,
     );
 
     const formDataUpload = new FormData();
@@ -148,7 +153,7 @@ function BoardWrite() {
   const updateTextareaContent = (
     text,
     updateAction = "insert",
-    targetText = ""
+    targetText = "",
   ) => {
     const textarea = contentRef.current;
     if (!textarea) return;
@@ -203,7 +208,7 @@ function BoardWrite() {
 
     if (!allowedTypes.includes(imageFile.type)) {
       showMessage(
-        `[${imageFile.type}]은 지원하지 않는 파일 형식입니다. (JPG, PNG 등만 허용)`
+        `[${imageFile.type}]은 지원하지 않는 파일 형식입니다. (JPG, PNG 등만 허용)`,
       );
       return;
     }
@@ -241,6 +246,7 @@ function BoardWrite() {
       nickname: formData.nickname,
       category: formData.category,
       content: formData.content,
+      tags: tags,
     };
 
     try {
@@ -265,7 +271,7 @@ function BoardWrite() {
         `게시글 ${isEditMode ? "수정" : "작성"} 중 오류가 발생했습니다: ${
           error.message
         }`,
-        "error"
+        "error",
       );
     }
   };
@@ -330,6 +336,10 @@ function BoardWrite() {
             </select>
           </div>
 
+          <div className=" form-group">
+            <label>태그</label>
+            <TagInput tags={tags} setTags={setTags} />
+          </div>
           {/* 내용 (마크다운) */}
           <div className="form-group">
             <label htmlFor="content">

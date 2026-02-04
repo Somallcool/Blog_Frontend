@@ -88,3 +88,19 @@
   background-color: #34495e;
   /* 배경색을 약간 밝게 변경 */
 }
+
+/* 검색 아이콘 링크 스타일 */
+.search-icon-link {
+  font-size: 1.2rem;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}

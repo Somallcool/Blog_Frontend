@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { apiDelete, apiGet, apiPost } from "../../../../Blog_Frontend/app";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   checkSubscription,
   toggleSubscription,
@@ -287,7 +287,16 @@ function BoardDetail() {
             }}
           />
         </div>
-
+        {/* 태그 영역 */}
+        {board.tags && board.tags.length > 0 && (
+          <div className="board-tags-container">
+            {board.tags.map((tag, index) => (
+              <Link to={`/search?tag=${tag}`} key={index} className="tag-badge">
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        )}
         {/* 첨부 이미지 */}
         {isImage && (
           <div className="image-section">
