@@ -1,0 +1,154 @@
+.comment-item-container {
+  margin-bottom: 0.5rem;
+}
+
+/* 댓글 카드 디자인 */
+.comment-card {
+  background-color: #fff;
+  /* border: 1px solid #eee; */
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+
+  display: flex;
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: space-between; /* 양 끝 정렬 (작성자/내용 vs 날짜/버튼) */
+  gap: 1rem; /* 요소 사이 간격 */
+}
+
+/* 삭제된 댓글 스타일 */
+.comment-card.deleted {
+  background-color: #f9f9f9;
+  color: #999;
+  font-style: italic;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0; /* 마진 제거 */
+  flex-shrink: 0; /* 작성자 이름 줄어들지 않게 */
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.comment-content {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin: 0; /* 마진 제거 */
+  /* 내용이 너무 길면 말줄임표 처리 (선택사항) */
+  /* white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0; /* 날짜/버튼 줄어들지 않게 */
+}
+
+.comment-date {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* 액션 버튼 영역 */
+.comment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #888;
+  padding: 2px 5px;
+}
+
+.action-btn:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+.action-btn.delete {
+  color: #ff6b6b;
+}
+
+.replies-container {
+  margin-top: 0.5rem;
+  margin-left: 2rem; /* 들여쓰기 간격 조절 */
+  /* padding-left: 0.5rem;
+    border-left: 2px solid #e9ecef; 선 제거 (요청하신 디자인에 맞춰) */
+}
+
+/* 답글 입력 폼 */
+.reply-form {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.reply-arrow {
+  color: #bbb;
+  font-size: 1.2rem;
+}
+
+.reply-input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 0.9rem;
+}
+
+.reply-submit-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.view-replies-btn {
+  background: none;
+  border: none;
+  color: #4a91e2e1; /* 깔끔한 파란색 (혹은 원하는 색상) */
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  /* 위치 잡기 */
+  margin-left: 2rem; /* 대댓글 들여쓰기 라인과 맞춤 */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.view-replies-btn:hover {
+  text-decoration: underline;
+  color: #357abd;
+}
+
+.replies-container {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid #e9ecef;
+}
