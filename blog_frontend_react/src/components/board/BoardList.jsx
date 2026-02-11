@@ -3,6 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { api, apiGet } from "../../services/api";
 import "./BoardList.css";
 
+const timeAgo = (dateString) => {
+  const now = new Date();
+  const date = new Date(dateString);
+  const diff = now - date;
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  if (seconds < 60) return "방금 전";
+  if (minutes < 60) return `${minutes}분 전`;
+  if (hours < 24) return `${hours}시간 전`;
+  if (days < 30) return `${days}일 전`;
+  if (months < 12) return `${months}달 전`;
+
+  return `${years}년 전`;
+};
+
 function BoardList() {
   const navigate = useNavigate();
 
@@ -33,7 +54,6 @@ function BoardList() {
 
       if (newBoards && newBoards.length > 0) {
         setBoards((prev) => {
-          // 기존 데이터에 이미 존재하는 ID인지 확인하여 중복 방지
           const existingIds = new Set(prev.map((b) => b.boardId));
           const filteredNewBoards = newBoards.filter(
             (b) => !existingIds.has(b.boardId),
@@ -41,12 +61,11 @@ function BoardList() {
           return [...prev, ...filteredNewBoards];
         });
 
-        // 다음 페이지를 위한 커서 업데이트
         setHasNext(response.hasNext);
         setCursorId(response.nextCursorId);
         setCursorDate(response.nextCursorDate);
       } else {
-        setHasNext(false); // 가져온 데이터가 없으면 끝으로 처리
+        setHasNext(false);
       }
     } catch (error) {
       console.error("게시글 목록 조회 실패", error);
@@ -107,12 +126,6 @@ function BoardList() {
     return summaryText;
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return `${date.getFullYear()}년 ${
-      date.getMonth() + 1
-    }월 ${date.getDate()}일`;
-  };
   const stripmarkdownAndHtml = (text) => {
     if (!text) return "";
     let cleanText = text
@@ -124,6 +137,7 @@ function BoardList() {
       .trim();
     return cleanText;
   };
+
   return (
     <div className="board-list-page">
       <div className="container-velog">
@@ -163,22 +177,17 @@ function BoardList() {
 
                     {/* 내용 */}
                     <div className="card-content">
-                      <h2 className="card-title">{board.title}</h2>
+                      {/* <h4 className="card-title">{board.title}</h4> */}
                       <p className="card-summary">
                         {stripmarkdownAndHtml(summaryText)}
                       </p>
 
-                      {/* 메타 정보 */}
-                      <div className="card-meta">
-                        <div className="meta-left">
-                          <span>{formatDate(board.inputDate)}</span>
-                          <span>
-                            by <span className="author">{board.nickname}</span>
-                          </span>
+                      {/* 날짜와 조회수를 본문 바로 아래(메타 위)에 배치 */}
+                      <div className="card-footer">
+                        <div className="footer-left">
+                          <span>{timeAgo(board.inputDate)}</span>
                         </div>
-
-                        <div className="meta-right">
-                          {/* 조회수 */}
+                        <div className="footer-right">
                           <span className="meta-item">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -194,23 +203,32 @@ function BoardList() {
                             </svg>
                             {board.views || 0}
                           </span>
-
-                          {/* 좋아요 */}
-                          <span className="meta-item">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            {board.likes || 0}
-                          </span>
                         </div>
+                      </div>
+                    </div>
+
+                    {/* 작성자와 좋아요는 맨 아래 고정 */}
+                    <div className="card-meta">
+                      <div className="meta-left">
+                        <span>
+                          by <span className="author">{board.nickname}</span>
+                        </span>
+                      </div>
+                      <div className="meta-right">
+                        <span className="meta-item">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {board.likes || 0}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -218,25 +236,19 @@ function BoardList() {
               })
             )}
           </div>
-          {/* 로딩 메시지 */}
+          {/* ... (로딩, 에러 등 기존 코드 유지) ... */}
           {isLoading && (
             <div className="loading-message">
               <div className="spinner"></div>
               <p>게시글을 불러오는 중...</p>
             </div>
           )}
-
-          {/* 에러 메시지 */}
           {error && <div className="error-message">{error}</div>}
-
-          {/* 목록 끝 메시지 */}
           {!hasNext && boards.length > 0 && (
             <div className="end-message">
               <p>- 모든 게시글을 불러왔습니다 -</p>
             </div>
           )}
-
-          {/* Intersection Observer 타겟 */}
           <div ref={observerTarget} style={{ height: "20px" }} />
         </main>
       </div>
