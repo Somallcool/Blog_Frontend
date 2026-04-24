@@ -28,25 +28,31 @@ function BoardList() {
   const navigate = useNavigate();
 
   const [boards, setBoards] = useState([]);
-  const [cursorId, setCursorId] = useState(null);
-  const [cursorDate, setCursorDate] = useState(null);
+  // const [cursorId, setCursorId] = useState(null);
+  // const [cursorDate, setCursorDate] = useState(null);
   const [hasNext, setHasNext] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const cursorIdRef = useRef(null);
+  const cursorDateRef = useRef(null);
+  const hasNextRef = useRef(true);
+  const isFetchingRef = useRef(false);
 
   const pageSize = 10;
   const observerTarget = useRef(null);
 
   const fetchBoardList = useCallback(async () => {
-    if (isLoading || !hasNext) return;
+    if (isFetchingRef.current || !hasNextRef.current) return;
 
+    isFetchingRef.current = true;
     setIsLoading(true);
     setError(null);
 
     try {
       let url = `/boards/cursor?size=${pageSize}`;
-      if (cursorId !== null && cursorDate !== null) {
-        url += `&cursorId=${cursorId}&cursorDate=${cursorDate}`;
+      if (cursorIdRef.current !== null && cursorDateRef.current !== null) {
+        url += `&cursorId=${cursorIdRef.current}&cursorDate=${cursorDateRef.current}`;
       }
 
       const response = await apiGet(url);
@@ -61,10 +67,14 @@ function BoardList() {
           return [...prev, ...filteredNewBoards];
         });
 
+        hasNextRef.current = response.hasNext;
+        cursorDateRef.current = response.nextCursorDate;
+        cursorIdRef.current = response.nextCursorId;
         setHasNext(response.hasNext);
-        setCursorId(response.nextCursorId);
-        setCursorDate(response.nextCursorDate);
+        // setCursorId(response.nextCursorId);
+        // setCursorDate(response.nextCursorDate);
       } else {
+        hasNextRef.current = false;
         setHasNext(false);
       }
     } catch (error) {
@@ -72,30 +82,40 @@ function BoardList() {
       setError(`API 요청 실패 : ${error.message}`);
       setHasNext(false);
     } finally {
+      isFetchingRef.current = false;
       setIsLoading(false);
     }
-  }, [isLoading, hasNext, cursorId, cursorDate]);
+  }, []);
+
+  useEffect(() => {
+    fetchBoardList();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasNext && !isLoading) {
+        if (
+          entries[0].isIntersecting &&
+          hasNextRef.current &&
+          !isFetchingRef.current
+        ) {
           fetchBoardList();
         }
       },
       { threshold: 0.1 },
     );
+    const target = observerTarget.current;
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
+    if (target) {
+      observer.observe(target);
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+      if (target) {
+        observer.unobserve(target);
       }
     };
-  }, [fetchBoardList, hasNext, isLoading]);
+  }, []);
 
   const handleCardClick = (boardId) => {
     navigate(`/board/${boardId}`);
