@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Login.css";
+import { authService } from "../../services/AuthService";
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
 const KAKAO_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/kakao/url`;
@@ -138,6 +139,14 @@ function Login() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      await authService.googleLogin();
+    } catch (error) {
+      console.error("구글 로그인 실패: ", error.message);
+    }
+  };
+
   return (
     <div className="login-container">
       <h1>로그인</h1>
@@ -195,12 +204,15 @@ function Login() {
             />
           </a>
           <a
-            id="naver-login-btn"
+            id="google-login-btn"
             href="#"
             className="social-login-btn"
-            onClick={handleNaverLogin}
+            onClick={handleGoogleLogin}
           >
-            <img src="/image/btnG_축약형.png" alt="네이버 로그인 버튼" />
+            <img
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="구글 로그인 버튼"
+            />
           </a>
         </div>
         {/*회원가입 링크 */}

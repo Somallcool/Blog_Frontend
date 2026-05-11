@@ -4,8 +4,8 @@ import {
   Routes,
   Route,
   Navigate,
-  useNavigate,
-  useLocation,
+  // useNavigate,
+  // useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
@@ -28,23 +28,19 @@ function PrivateRoute({ children }) {
 // URL에서 토큰 처리하는 컴포넌트
 function TokenHandler() {
   const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     const jwtToken = urlParams.get("token");
     const userNickname = urlParams.get("nickname");
 
     if (jwtToken && userNickname) {
-      sessionStorage.setItem("jwtToken", jwtToken);
-      sessionStorage.setItem("isLoggedIn", "true");
-      sessionStorage.setItem("userNickname", userNickname);
-
       login({ nickname: userNickname }, jwtToken);
-      navigate(location.pathname, { replace: true });
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [location, login, navigate]);
+  }, []);
 
   return null;
 }

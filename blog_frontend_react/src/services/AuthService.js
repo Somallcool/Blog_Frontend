@@ -136,4 +136,35 @@ export const authService = {
       throw new Error("사용자 정보 조회에 실패했습니다.");
     }
   },
+
+  /**
+   * 구글 로그인 URl 조회 후 리다이렉트
+   * @returns {Promise<void>}
+   */
+  googleLogin: async () => {
+    try {
+      const response = await apiGet("/oauth/google/url");
+      window.location.href = response.googleAuthUrl;
+    } catch (error) {
+      throw new Error("구글 로그인 URL 조회에 실패했습니다.");
+    }
+  },
+
+  /**
+   *  소셜 로그인 콜백 처리 (URL 파라미터에서 토큰 닉네임 추출)
+   *  @returns {{ token : String, nickname: String} | null}
+   */
+
+  handleSocialLoginCallback: () => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const nickname = params.get("nickname");
+
+    if (token && nickname) {
+      // URL 파라미터 제거( 뒤로가기 시 재처리 방지)
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return { token, nickname };
+    }
+    return null;
+  },
 };
