@@ -3,11 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { apiGet, apiPost, apiPut, apiPostJson } from "../../services/api";
 import "./BoardWrite.css";
 import TagInput from "./TagInput";
+import { useAuth } from "../../contexts/AuthContext";
+
 const allowedTypes = ["image/jpeg", "image/png", "image/gif", "/image/webp"];
 
 function BoardWrite() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -41,8 +44,11 @@ function BoardWrite() {
   }, [location]);
 
   useEffect(() => {
-    initializeAuth();
-  }, []);
+    // initializeAuth();
+    if (user?.nickname) {
+      setFormData((prev) => ({ ...prev, nickname: user.nickname }));
+    }
+  }, [user]);
 
   const showMessage = (message, type = "error") => {
     setStatusMessage(message);
@@ -53,27 +59,27 @@ function BoardWrite() {
     }, 3000);
   };
 
-  const initializeAuth = async () => {
-    try {
-      const authResponse = await apiGet("/boards/auth-check");
-      const nickname = authResponse.userNickname;
+  // const initializeAuth = async () => {
+  //   try {
+  //     const authResponse = await apiGet("/boards/auth-check");
+  //     const nickname = authResponse.userNickname;
 
-      if (!nickname) {
-        throw new Error("닉네임 정보 누락");
-      }
-      setFormData((prev) => ({ ...prev, nickname }));
+  //     if (!nickname) {
+  //       throw new Error("닉네임 정보 누락");
+  //     }
+  //     setFormData((prev) => ({ ...prev, nickname }));
 
-      sessionStorage.setItem("isLoggedIn", "true");
-      sessionStorage.setItem("userNickname", nickname);
-    } catch (error) {
-      console.error(
-        "인증 확인 실패. 로그인 페이지로 이동합니다.",
-        error.message,
-      );
-      alert("게시글 작성을 위해 로그인이 필요합니다.");
-      navigate("/login");
-    }
-  };
+  //     sessionStorage.setItem("isLoggedIn", "true");
+  //     sessionStorage.setItem("userNickname", nickname);
+  //   } catch (error) {
+  //     console.error(
+  //       "인증 확인 실패. 로그인 페이지로 이동합니다.",
+  //       error.message,
+  //     );
+  //     alert("게시글 작성을 위해 로그인이 필요합니다.");
+  //     navigate("/login");
+  //   }
+  // };
 
   const loadBoardData = async (id) => {
     try {
