@@ -21,15 +21,15 @@ function getToken() {
 
 api.interceptors.request.use(
   (config) => {
-    // const token = getToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 api.interceptors.response.use(
@@ -49,12 +49,12 @@ api.interceptors.response.use(
     }
 
     const enhancedError = new Error(
-      `API 요청 실패 : ${status || "Network Error"} - ${errorDetail}`
+      `API 요청 실패 : ${status || "Network Error"} - ${errorDetail}`,
     );
     enhancedError.status = status;
     enhancedError.originalError = error;
     return Promise.reject(enhancedError);
-  }
+  },
 );
 
 /**

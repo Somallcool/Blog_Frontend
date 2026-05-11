@@ -21,36 +21,39 @@ import SearchPage from "./components/common/SearchPage.jsx";
 
 // 인증이 필요한 라우트 보호 컴포넌트
 function PrivateRoute({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return null;
+
   return isAuthenticated ? children : <Navigate to="/login" />;
 }
 
 // URL에서 토큰 처리하는 컴포넌트
-function TokenHandler() {
-  const { login } = useAuth();
-  // const navigate = useNavigate();
-  // const location = useLocation();
+// function TokenHandler() {
+//   const { login } = useAuth();
+//   // const navigate = useNavigate();
+//   // const location = useLocation();
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const jwtToken = urlParams.get("token");
-    const userNickname = urlParams.get("nickname");
+//   useEffect(() => {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const jwtToken = urlParams.get("token");
+//     const userNickname = urlParams.get("nickname");
 
-    if (jwtToken && userNickname) {
-      login({ nickname: userNickname }, jwtToken);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
+//     if (jwtToken && userNickname) {
+//       login({ nickname: userNickname }, jwtToken);
+//       window.history.replaceState({}, document.title, window.location.pathname);
+//     }
+//   }, []);
 
-  return null;
-}
+//   return null;
+// }
 
 function AppContent() {
   return (
     <div className="App">
       <Navbar />
 
-      <TokenHandler />
+      {/* <TokenHandler /> */}
       <main className="main-content">
         <Routes>
           <Route path="/" element={<BoardList />} />
