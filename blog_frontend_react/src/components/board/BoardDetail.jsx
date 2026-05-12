@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiDelete, apiGet, apiPost } from "../../utils/app.js";
+import { apiDelete, apiGet, apiPost } from "../../services/api";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   checkSubscription,

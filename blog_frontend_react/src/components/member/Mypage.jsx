@@ -26,11 +26,15 @@ function Mypage() {
       color: "#0c5460",
     });
 
+    const token =
+      sessionStorage.getItem("jwtToken") || localStorage.getItem("jwtToken");
+
     try {
       const response = await fetch(MYPAGE_API_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         credentials: "include",
       });
@@ -41,7 +45,7 @@ function Mypage() {
         setLoading(false);
       } else if (response.status === 401) {
         setStatusMessage(
-          "로그인 세션이 만료되었거나 로그인되어 있지 않습니다. 로그인 페이지로 이동합니다."
+          "로그인 세션이 만료되었거나 로그인되어 있지 않습니다. 로그인 페이지로 이동합니다.",
         );
         setStatusStyle({
           backgroundColor: "#f8d7da",
@@ -59,7 +63,7 @@ function Mypage() {
         setStatusMessage(
           `오류 발생 :${
             errorData.message || "사용자 정보를 불러올 수 없습니다."
-          }`
+          }`,
         );
         setStatusStyle({
           backgroundColor: "#f8d7da",
