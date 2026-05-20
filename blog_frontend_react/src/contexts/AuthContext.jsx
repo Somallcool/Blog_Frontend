@@ -10,11 +10,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const jwtToken = urlParams.get("token");
+      // const jwtToken = urlParams.get("token");
       const userNickname = urlParams.get("nickname");
 
-      if (jwtToken && userNickname) {
-        sessionStorage.setItem("jwtToken", jwtToken);
+      if (userNickname) {
+        // sessionStorage.setItem("jwtToken", jwtToken);
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem("userNickname", userNickname);
         window.history.replaceState(
@@ -26,10 +26,10 @@ export const AuthProvider = ({ children }) => {
 
       const isLoggedIn = sessionStorage.getItem("isLoggedIn") == "true";
       const storedNickname = sessionStorage.getItem("userNickname");
-      const storedToken = sessionStorage.getItem("jwtToken");
+      // const storedToken = sessionStorage.getItem("jwtToken");
 
-      if (isLoggedIn && storedNickname && storedToken) {
-        setUser({ nickname: storedNickname, token: storedToken });
+      if (isLoggedIn && storedNickname) {
+        setUser({ nickname: storedNickname });
       }
       setLoading(false);
     };

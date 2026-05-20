@@ -26,15 +26,15 @@ function Mypage() {
       color: "#0c5460",
     });
 
-    const token =
-      sessionStorage.getItem("jwtToken") || localStorage.getItem("jwtToken");
+    // const token =
+    //   sessionStorage.getItem("jwtToken") || localStorage.getItem("jwtToken");
 
     try {
       const response = await fetch(MYPAGE_API_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
+          // ...(token && { Authorization: `Bearer ${token}` }),
         },
         credentials: "include",
       });
