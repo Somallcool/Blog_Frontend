@@ -104,3 +104,10 @@
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
 }
+#admin-reports {
+  color: #2ec4a9;
+  font-weight: 600;
+}
+#admin-reports:hover {
+  opacity: 0.8;
+}

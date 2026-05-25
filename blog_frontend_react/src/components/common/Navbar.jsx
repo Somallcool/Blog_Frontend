@@ -75,6 +75,15 @@ function Navbar() {
               <li className="user-greeting">
                 <span>{user.nickname}님,반갑습니다.</span>
               </li>
+              {/* 어드민 전용 */}
+              {user?.role === "ROLE_ADMIN" && (
+                <li>
+                  <Link to="/admin/reports" id="admin-reports">
+                    신고 관리
+                  </Link>
+                </li>
+              )}
+
               <li>
                 <Link to="/mypage" id="mypage">
                   마이페이지

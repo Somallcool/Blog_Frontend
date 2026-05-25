@@ -3,7 +3,7 @@ import { apiGet, apiPostJson } from "../../services/api";
 import CommentItem from "./CommentItem";
 import "./CommentList.css";
 
-function CommentList({ boardId }) {
+function CommentList({ boardId, onReportComment }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -84,6 +84,7 @@ function CommentList({ boardId }) {
               comment={comment}
               boardId={boardId}
               onRefresh={fetchComments}
+              onReport={onReportComment}
             />
           ))
         )}

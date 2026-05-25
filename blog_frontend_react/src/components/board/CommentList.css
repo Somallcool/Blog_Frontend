@@ -265,3 +265,11 @@
     gap: 0.25rem;
   }
 }
+.action-btn.report {
+  color: #ef4444;
+}
+
+.action-btn.report:hover {
+  color: #dc2626;
+  text-decoration: underline;
+}
