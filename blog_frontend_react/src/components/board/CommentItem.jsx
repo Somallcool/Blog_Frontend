@@ -2,7 +2,7 @@ import { useState } from "react";
 import { apiPostJson, apiDelete } from "../../services/api";
 import "./CommentItem.css";
 
-const CommentItem = ({ comment, boardId, onRefresh }) => {
+const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
   const [isReplying, setIsReplying] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [showReplies, setShowReplies] = useState(false);
@@ -75,6 +75,17 @@ const CommentItem = ({ comment, boardId, onRefresh }) => {
                   삭제
                 </button>
               )}
+              {/* 본인 댓글 아닐 때 신고 버튼 */}
+              {!comment.isAuthor && onReport && (
+                <button
+                  className="action-btn report"
+                  onClick={() =>
+                    onReport("commment", comment.memberId, comment.commentId)
+                  }
+                >
+                  신고
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -117,6 +128,7 @@ const CommentItem = ({ comment, boardId, onRefresh }) => {
               comment={child}
               boardId={boardId}
               onRefresh={onRefresh}
+              onReport={onReport}
             />
           ))}
         </div>

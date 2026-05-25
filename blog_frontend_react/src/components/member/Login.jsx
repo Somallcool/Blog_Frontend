@@ -60,7 +60,7 @@ function Login() {
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem("userNickname", result.nickname);
 
-        login({ nickname: result.nickname }, null);
+        login({ nickname: result.nickname, userRole: result.userRole }, null);
 
         setStatusMessage(
           `로그인 성공! ${result.nickname}님 환영합니다. 잠시 후 이동합니다.`,
@@ -71,11 +71,10 @@ function Login() {
           navigate("/");
         }, 1500);
       } else {
-        const errorData = await response.json().catch(() => ({
-          message: `상태 코드 ${response.status} 오류`,
-        }));
-
-        setStatusMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
+        const errorData = await response.json().catch(() => null);
+        const message =
+          errorData?.message || "아이디 또는 비밀번호가 일치하지 않습니다.";
+        setStatusMessage(message);
         setStatusColor("red");
       }
     } catch (error) {

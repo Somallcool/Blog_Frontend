@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiDelete, apiGet, apiPost } from "../../services/api";
+import { apiDelete, apiGet, apiPost, apiPostJson } from "../../services/api";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   checkSubscription,
@@ -7,6 +7,7 @@ import {
 } from "../../services/subscriptionApi";
 import "./BoardDetail.css";
 import CommentList from "./CommentList.jsx";
+import ReportModal from "../common/ReportModal.jsx";
 
 function BoardDetail() {
   const { id } = useParams();
@@ -19,6 +20,28 @@ function BoardDetail() {
   const [isStatusError, setIsStatusError] = useState(false);
 
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  //신고 모달 상태
+  const [reportModal, setReportModal] = useState({
+    open: false,
+    type: null, // 'board' | 'commment'
+    targetId: null, //신고 대상 memberId
+  });
+
+  const openReport = (type, targetId, commentId = null) =>
+    setReportModal({ open: true, type, targetId, commentId });
+  const closeReport = () =>
+    setReportModal({ open: false, type: null, targetId: null });
+
+  const handleReport = async (targetId, reason, detail) => {
+    //POST /api/v1/reports/{targetId}
+    await apiPostJson(`/reports/${targetId}`, {
+      reason,
+      boardId: Number(id),
+      commentId: reportModal.commentId ?? null,
+      detail,
+    });
+  };
 
   useEffect(() => {
     if (id) {
@@ -216,6 +239,10 @@ function BoardDetail() {
     ["jpg", "jpeg", "png", "gif", "webp"].includes(
       board.fileOriginalName.split(".").pop().toLowerCase(),
     );
+
+  // 신고 대상 memberId (게시글 작성자)
+  const authorMemberId = board.member?.memberId || board.memberId;
+
   const formatDate = (dateString) => {
     if (!dateString) return "";
     return dateString.substring(2, 10);
@@ -327,6 +354,16 @@ function BoardDetail() {
 
         {/* 액션 버튼 */}
         <div className="action-buttons">
+          {/* 신고 버튼 : 본인 글 아닐 때만 표시 */}
+          {!board.isAuthor && (
+            <button
+              className="report-button"
+              onClick={() => openReport("board", authorMemberId)}
+            >
+              신고
+            </button>
+          )}
+
           {board.isAuthor && (
             <>
               <button onClick={handleEdit} className="edit-button">
@@ -342,8 +379,16 @@ function BoardDetail() {
           </button>
         </div>
         {/* 댓글 컴포넌트 추가 */}
-        <CommentList boardId={id} />
+        <CommentList boardId={id} onReportComment={openReport} />
       </div>
+      {/* 신고 모달 */}
+      <ReportModal
+        isOpen={reportModal.open}
+        onClose={closeReport}
+        targetType={reportModal.type}
+        targetId={reportModal.targetId}
+        onSubmit={handleReport}
+      />
     </div>
   );
 }
