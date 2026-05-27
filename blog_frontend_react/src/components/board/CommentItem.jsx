@@ -38,8 +38,8 @@ const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
   };
 
   return (
-    <div className="comment-item-container">
-      {/* 댓글 본문 영역 (Flexbox 적용됨) */}
+    <div className="comment-item-container" id={`comment-${comment.commentId}`}>
+      {/* 댓글 본문 영역 */}
       <div className={`comment-card ${comment.deleted ? "deleted" : ""}`}>
         {/* 1. 작성자 정보 (왼쪽) */}
         <div className="comment-header">
@@ -80,7 +80,7 @@ const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
                 <button
                   className="action-btn report"
                   onClick={() =>
-                    onReport("commment", comment.memberId, comment.commentId)
+                    onReport("comment", comment.memberId, comment.commentId)
                   }
                 >
                   신고
@@ -90,7 +90,8 @@ const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
           )}
         </div>
       </div>
-      {/* 답글 보기/ 숨기기 토글 버튼 */}
+
+      {/* 답글 보기/숨기기 토글 버튼 */}
       {comment.children && comment.children.length > 0 && (
         <button
           className="view-replies-btn"
@@ -101,6 +102,7 @@ const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
             : `▼ 답글 ${comment.children.length}개 보기`}
         </button>
       )}
+
       {/* 답글 입력 폼 */}
       {isReplying && (
         <form onSubmit={handleReplySubmit} className="reply-form">
@@ -119,7 +121,7 @@ const CommentItem = ({ comment, boardId, onRefresh, onReport }) => {
         </form>
       )}
 
-      {/* 자식 댓글이 있으면 자기 자신을 다시 호출 (재귀) */}
+      {/* 자식 댓글 재귀 렌더링 */}
       {showReplies && comment.children && comment.children.length > 0 && (
         <div className="replies-container">
           {comment.children.map((child) => (

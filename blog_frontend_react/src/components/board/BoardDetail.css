@@ -415,3 +415,19 @@
     align-items: flex-start;
   }
 }
+/* 댓글 하이라이트 */
+@keyframes highlight-fade {
+  0% {
+    background-color: #dbeafe;
+    box-shadow: 0 0 0 3px #93c5fd;
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.comment-highlight {
+  animation: highlight-fade 2.5s ease forwards;
+  border-radius: 8px;
+}

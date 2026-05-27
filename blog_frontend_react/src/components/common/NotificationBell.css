@@ -2,7 +2,7 @@
 .notification-wrapper {
   position: relative;
   display: inline-block;
-  margin-right: 20px; /* 옆 요소와 간격 */
+  margin-right: 20px;
 }
 
 /* 종 버튼 */
@@ -16,7 +16,7 @@
 }
 
 .bell-btn:hover {
-  transform: scale(1.1); /* 살짝 커지는 효과 */
+  transform: scale(1.1);
 }
 
 /* 빨간 뱃지 */
@@ -24,7 +24,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background-color: #ef4444; /* 빨간색 */
+  background-color: #ef4444;
   color: white;
   border-radius: 50%;
   padding: 2px 6px;
@@ -36,9 +36,9 @@
 /* 드롭다운 박스 */
 .notification-dropdown {
   position: absolute;
-  top: 120%; /* 버튼 바로 아래 */
+  top: 120%;
   right: -10px;
-  width: 300px;
+  width: 320px;
   background-color: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -47,7 +47,11 @@
   overflow: hidden;
 }
 
+/* 헤더 */
 .dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 15px;
   background-color: #f9fafb;
   font-weight: bold;
@@ -55,20 +59,42 @@
   color: #374151;
 }
 
+/* 전체 읽음 버튼 */
+.read-all-btn {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.read-all-btn:hover {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+/* 알림 목록 */
 .notification-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 300px; /* 너무 길어지면 스크롤 */
+  max-height: 360px;
   overflow-y: auto;
 }
 
+/* 알림 아이템 */
 .noti-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 15px;
   border-bottom: 1px solid #f3f4f6;
-  font-size: 0.9rem;
-  color: #4b5563;
-  line-height: 1.4;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 8px;
 }
 
 .noti-item:last-child {
@@ -79,8 +105,79 @@
   background-color: #f9fafb;
 }
 
+/* 읽음/안읽음 배경 구분 */
+.noti-item.unread {
+  background-color: #eff6ff;
+}
+
+.noti-item.unread:hover {
+  background-color: #dbeafe;
+}
+
+.noti-item.read {
+  background-color: white;
+}
+
+/* 알림 내용 영역 */
+.noti-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* 안읽음 파란 점 */
+.unread-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+/* 알림 텍스트 */
+.noti-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.noti-text p {
+  margin: 0 0 4px;
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.noti-date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* 삭제 버튼 */
+.noti-delete-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.noti-delete-btn:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* 빈 알림 */
 .no-noti {
-  padding: 20px;
+  padding: 24px;
   text-align: center;
   color: #9ca3af;
   font-size: 0.9rem;

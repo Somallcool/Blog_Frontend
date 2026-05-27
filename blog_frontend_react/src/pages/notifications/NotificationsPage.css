@@ -1,0 +1,172 @@
+.np-page {
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: "Inter", sans-serif;
+}
+
+.np-container {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* 헤더 */
+.np-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.np-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.np-read-all-btn {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  color: #6b7280;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.np-read-all-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* 빈 상태 */
+.np-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4rem 1rem;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.np-empty-icon {
+  font-size: 2rem;
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+
+/* 알림 목록 */
+.np-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 알림 아이템 */
+.np-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 12px;
+}
+.np-item:last-child {
+  border-bottom: none;
+}
+
+.np-item.unread {
+  background-color: #eff6ff;
+}
+.np-item.unread:hover {
+  background-color: #dbeafe;
+}
+.np-item.read {
+  background-color: #fff;
+}
+.np-item.read:hover {
+  background-color: #f9fafb;
+}
+
+/* 아이템 왼쪽 */
+.np-item-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* 안읽음 파란 점 */
+.np-unread-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+/* 텍스트 영역 */
+.np-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.np-item-content {
+  margin: 0 0 4px;
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.np-item-date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* 삭제 버튼 */
+.np-delete-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.np-delete-btn:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+.np-item.read {
+  background-color: #fff;
+}
+
+/* 읽음 - 텍스트 회색으로 */
+.np-item.read .np-item-content {
+  color: #9ca3af;
+}
+
+.np-item.read .np-item-date {
+  color: #d1d5db;
+}
+
+.np-item.read:hover {
+  background-color: #f9fafb;
+}

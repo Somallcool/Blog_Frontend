@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { apiDelete, apiGet, apiPost, apiPostJson } from "../../services/api";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 import {
   checkSubscription,
   toggleSubscription,
@@ -43,11 +48,30 @@ function BoardDetail() {
     });
   };
 
+  const [searchParams] = useSearchParams();
+  const targetCommentId = searchParams.get("commentId");
+
   useEffect(() => {
     if (id) {
       fetchBoardDetail(id);
     }
   }, [id]);
+
+  const handleCommentsLoaded = () => {
+    if (!targetCommentId) return;
+
+    const tryScroll = (retries = 10) => {
+      const el = document.getElementById(`comment-${targetCommentId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("comment-highlight");
+        setTimeout(() => el.classList.remove("comment-highlight"), 2500);
+      } else if (retries > 0) {
+        setTimeout(() => tryScroll(retries - 1), 300);
+      }
+    };
+    tryScroll();
+  };
 
   const showStatusMessage = (message, isError = false) => {
     setStatusMessage(message);
@@ -379,7 +403,11 @@ function BoardDetail() {
           </button>
         </div>
         {/* 댓글 컴포넌트 추가 */}
-        <CommentList boardId={id} onReportComment={openReport} />
+        <CommentList
+          boardId={id}
+          onReportComment={openReport}
+          onCommentsLoaded={handleCommentsLoaded}
+        />
       </div>
       {/* 신고 모달 */}
       <ReportModal
