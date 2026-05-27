@@ -42,10 +42,6 @@
   line-height: 1.5;
   white-space: pre-wrap;
   margin: 0; /* 마진 제거 */
-  /* 내용이 너무 길면 말줄임표 처리 (선택사항) */
-  /* white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; */
 }
 
 .comment-meta {
@@ -86,9 +82,9 @@
 
 .replies-container {
   margin-top: 0.5rem;
-  margin-left: 2rem; /* 들여쓰기 간격 조절 */
-  /* padding-left: 0.5rem;
-    border-left: 2px solid #e9ecef; 선 제거 (요청하신 디자인에 맞춰) */
+  margin-left: 2rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid #e9ecef;
 }
 
 /* 답글 입력 폼 */
@@ -98,7 +94,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #f8f9fa;
+  /* background: #f8f9fa; */
   padding: 0.5rem;
   border-radius: 4px;
 }
@@ -116,25 +112,34 @@
   font-size: 0.9rem;
 }
 
-.reply-submit-btn {
-  background-color: #333;
-  color: #fff;
+/* 등록 버튼 - 전역 button[type="submit"] 스타일 덮어쓰기 위해 선택자 강화 */
+.reply-form .reply-submit-btn {
+  background: none !important;
   border: none;
-  border-radius: 4px;
-  padding: 6px 12px;
+  font-size: 0.8rem;
   cursor: pointer;
-  font-size: 0.85rem;
+  color: #888;
+  padding: 2px 5px;
+  border-radius: 0;
+  font-weight: normal;
+  width: auto;
+  max-width: none;
 }
+
+.reply-form .reply-submit-btn:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
 .view-replies-btn {
   background: none;
   border: none;
-  color: #4a91e2e1; /* 깔끔한 파란색 (혹은 원하는 색상) */
+  color: #4a91e2e1;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
 
-  /* 위치 잡기 */
-  margin-left: 2rem; /* 대댓글 들여쓰기 라인과 맞춤 */
+  margin-left: 2rem;
   margin-top: 5px;
   margin-bottom: 5px;
   display: flex;
@@ -144,11 +149,4 @@
 .view-replies-btn:hover {
   text-decoration: underline;
   color: #357abd;
-}
-
-.replies-container {
-  margin-top: 0.5rem;
-  margin-left: 2rem;
-  padding-left: 0.5rem;
-  border-left: 2px solid #e9ecef;
 }
