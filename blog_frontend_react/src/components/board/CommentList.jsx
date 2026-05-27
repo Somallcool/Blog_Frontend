@@ -3,7 +3,7 @@ import { apiGet, apiPostJson } from "../../services/api";
 import CommentItem from "./CommentItem";
 import "./CommentList.css";
 
-function CommentList({ boardId, onReportComment }) {
+function CommentList({ boardId, onReportComment, onCommentsLoaded }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,7 @@ function CommentList({ boardId, onReportComment }) {
     try {
       const data = await apiGet(`/boards/${boardId}/comments`);
       setComments(data);
+      setTimeout(() => onCommentsLoaded?.(), 100);
     } catch (error) {
       console.error("댓글 로드 실패", error);
     }

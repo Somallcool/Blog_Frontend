@@ -38,14 +38,22 @@ api.interceptors.response.use(
     const status = error.response?.status;
     const errorDetail =
       error.response?.data?.message || error.response?.data || error.message;
+    const reqeustUrl = error.config?.url || "";
 
     if (status == 401) {
       sessionStorage.clear();
       localStorage.clear();
       window.location.href = "/login";
     } else if (status == 403) {
-      console.error("403 Forbidden : 접근 권한이 없습니다.");
-      alert("접근 권한이 없습니다.");
+      // console.error("403 Forbidden : 접근 권한이 없습니다.");
+      // alert("접근 권한이 없습니다.");
+      const silentPaths = ["/notifications", "/notifications/unread-count"];
+      const isSilent = silentPaths.some((path) => reqeustUrl.includes(path));
+
+      if (!isSilent) {
+        console.error("403 Forbideen : 접근 권한이 없습니다.");
+        alert("접근 권한이 없습니다.");
+      }
     }
 
     const enhancedError = new Error(
@@ -146,6 +154,26 @@ export async function apiDelete(endpoint) {
     return null;
   } catch (error) {
     console.error("API DELETE 요청 실패:", error);
+    throw error;
+  }
+}
+
+/**
+ *
+ * @param {String} endpoint
+ * @param {Object} jsonBody
+ * @returns {Promise<Object>}
+ */
+export async function apiPatch(endpoint, jsonBody = {}) {
+  try {
+    const response = await api.patch(endpoint, jsonBody, {
+      headers: {
+        "Content-Type": "apllication/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("API PATCH 요청 실패:", error);
     throw error;
   }
 }
