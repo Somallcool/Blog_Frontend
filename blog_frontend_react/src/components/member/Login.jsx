@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Login.css";
 import { authService } from "../../services/AuthService";
-import kakaoLoginBtn from "../../assets/kakao_login_medium.png";
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
 const KAKAO_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/kakao/url`;
@@ -198,7 +197,7 @@ function Login() {
             className="social-login-btn"
             onClick={handleKakaoLogin}
           >
-            <img src={kakaoLoginBtn} alt="카카오 로그인 버튼" />
+            <img src="image//kakao_login_medium.png" alt="카카오 로그인 버튼" />
           </a>
           <a
             id="google-login-btn"
