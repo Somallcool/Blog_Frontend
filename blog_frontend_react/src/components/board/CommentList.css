@@ -30,6 +30,7 @@
   resize: vertical;
   font-family: inherit;
   transition: border-color 0.2s;
+  box-sizing: border-box; /* 패딩/보더 포함해서 width 100% 계산 */
 }
 
 .comment-form textarea:focus {
@@ -196,6 +197,7 @@
   font-size: 0.875rem;
   font-family: inherit;
   resize: vertical;
+  box-sizing: border-box; /* 동일하게 적용 */
 }
 
 .comment-content textarea:focus {
@@ -265,6 +267,7 @@
     gap: 0.25rem;
   }
 }
+
 .action-btn.report {
   color: #ef4444;
 }

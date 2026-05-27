@@ -39,7 +39,7 @@ function BoardList() {
   const hasNextRef = useRef(true);
   const isFetchingRef = useRef(false);
 
-  const pageSize = 10;
+  const pageSize = 12;
   const observerTarget = useRef(null);
 
   const fetchBoardList = useCallback(async () => {
