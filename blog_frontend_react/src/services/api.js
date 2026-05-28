@@ -52,7 +52,6 @@ api.interceptors.response.use(
 
       if (!isSilent) {
         console.error("403 Forbideen : 접근 권한이 없습니다.");
-        alert("접근 권한이 없습니다.");
       }
     }
 
@@ -168,7 +167,7 @@ export async function apiPatch(endpoint, jsonBody = {}) {
   try {
     const response = await api.patch(endpoint, jsonBody, {
       headers: {
-        "Content-Type": "apllication/json",
+        "Content-Type": "application/json",
       },
     });
     return response.data;

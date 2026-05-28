@@ -1,101 +1,408 @@
-.mypage-container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 30px;
-  background-color: #ffffff;
+/* ── 전체 레이아웃 ───────────────────────────────────────────── */
+.mypage-wrapper {
+  display: flex;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* ── 사이드바 ────────────────────────────────────────────────── */
+.mypage-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: sticky;
+  top: 1rem;
 }
 
-.mypage-container h2 {
+.sidebar-header {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-group-label {
+  padding: 14px 20px 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.sidebar-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  box-sizing: border-box;
+}
+
+.sidebar-item.sub-item {
+  padding-left: 28px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.sidebar-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.sidebar-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* ── 콘텐츠 영역 ─────────────────────────────────────────────── */
+.mypage-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.content-panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panel-title {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.875rem 0;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid #f3f4f6;
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 15px;
 }
 
-.user-info-section {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.panel-desc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
 }
 
-.user-info-section h3 {
-  color: #555;
-  margin-bottom: 20px;
-  border-left: 5px solid #007bff;
-  padding-left: 10px;
+/* ── 회원 정보 ───────────────────────────────────────────────── */
+.info-list {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
 }
 
-.info-group {
+.info-row {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px dashed #eee;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed #f3f4f6;
+  font-size: 0.9rem;
+  color: #374151;
 }
 
-.info-group:last-child {
+.info-row:last-child {
   border-bottom: none;
 }
 
-.info-group label {
-  font-weight: bold;
-  color: #333;
-  min-width: 120px;
+.info-label {
+  font-weight: 600;
+  color: #6b7280;
+  min-width: 100px;
 }
 
-.info-group p {
-  margin: 0;
-  color: #666;
-  text-align: right;
-  flex-grow: 1;
-}
-
-.primary-btn {
-  display: block;
+/* ── 폼 공통 ─────────────────────────────────────────────────── */
+.mypage-form {
   width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
 }
 
-.primary-btn:hover {
-  background-color: #218838;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.message {
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
   text-align: center;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  font-weight: 500;
-  border: 1px solid;
 }
 
-/* 반응형 디자인 */
+.form-field input {
+  width: 115%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.input-with-btn {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-btn input {
+  flex: 1;
+}
+
+.check-btn {
+  padding: 10px 14px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.check-btn:hover {
+  background: #e5e7eb;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+.field-msg {
+  font-size: 0.8rem;
+}
+.field-msg.success {
+  color: #16a34a;
+}
+.field-msg.error {
+  color: #dc2626;
+}
+
+/* ── 버튼 ────────────────────────────────────────────────────── */
+.submit-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #2c3e50ee;
+}
+
+.submit-btn:disabled {
+  background: #2c3e50;
+  cursor: not-allowed;
+}
+
+/* ── 피드백 메시지 ───────────────────────────────────────────── */
+.feedback-msg {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.feedback-msg.success {
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.feedback-msg.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* ── 게시글 테이블 ───────────────────────────────────────────── */
+.boards-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.boards-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.boards-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.board-row {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.board-row:hover {
+  background: #f9fafb;
+}
+.board-row:hover .board-title {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 3rem 0;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* ── 진입 비밀번호 게이트 ────────────────────────────────────── */
+.password-gate-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+  background: #f9fafb;
+}
+
+.password-gate {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.gate-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.gate-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.gate-desc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.password-gate .mypage-form {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── 반응형 ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .mypage-container {
-    margin: 20px;
-    padding: 20px;
-  }
-
-  .info-group {
+  .mypage-wrapper {
     flex-direction: column;
-    gap: 5px;
+    padding: 1rem;
   }
 
-  .info-group label {
-    min-width: auto;
+  .mypage-sidebar {
+    width: 100%;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px;
   }
 
-  .info-group p {
-    text-align: left;
+  .sidebar-header,
+  .sidebar-group-label {
+    display: none;
+  }
+
+  .sidebar-item {
+    width: auto;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+  }
+
+  .sidebar-item.sub-item {
+    padding-left: 14px;
+  }
+
+  .boards-table th:nth-child(3),
+  .boards-table td:nth-child(3),
+  .boards-table th:nth-child(4),
+  .boards-table td:nth-child(4) {
+    display: none;
   }
 }
