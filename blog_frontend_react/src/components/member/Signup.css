@@ -171,7 +171,7 @@
 
 /* 가입하기 버튼 */
 button[type="submit"] {
-  background-color: #2ecc71;
+  background-color: #2c3e50;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -184,9 +184,9 @@ button[type="submit"] {
   transition: background-color 0.2s;
 }
 
-button[type="submit"]:hover {
+/* button[type="submit"]:hover {
   background-color: #27ae60;
-}
+} */
 
 /* 로그인 링크 */
 .login-link {
