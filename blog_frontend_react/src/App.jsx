@@ -20,6 +20,8 @@ import "./App.css";
 import SearchPage from "./components/common/SearchPage.jsx";
 import AdminReportsPage from "./pages/admin/AdminReportsPage.jsx";
 import NotificationsPage from "./pages/notifications/NotificationsPage.jsx";
+import FindUsername from "./components/member/FindUsername.jsx";
+
 // 인증이 필요한 라우트 보호 컴포넌트
 function PrivateRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -95,6 +97,7 @@ function AppContent() {
               </PrivateRoute>
             }
           />
+          <Route path="/find-username" element={<FindUsername />} />
         </Routes>
       </main>
     </div>

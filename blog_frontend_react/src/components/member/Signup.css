@@ -246,3 +246,96 @@ button[type="submit"] {
     margin-top: 5px;
   }
 }
+/* ── 기존 Signup.css에 아래 스타일 추가해주세요 ── */
+
+.email-send-btn {
+  padding: 8px 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  margin-left: 6px;
+}
+
+.email-send-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+.email-send-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.email-verified-badge {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.verify-group {
+  align-items: center;
+}
+
+.verify-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  box-sizing: border-box;
+}
+
+.verify-timer {
+  font-size: 0.82rem;
+  color: #ef4444;
+  font-weight: 600;
+  margin: 0 6px;
+  white-space: nowrap;
+}
+
+.verify-btn {
+  padding: 8px 14px;
+  background: #059669;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.verify-btn:hover:not(:disabled) {
+  background: #047857;
+}
+.verify-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.verify-message {
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+}
+
+.verify-message.success {
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+.verify-message.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
