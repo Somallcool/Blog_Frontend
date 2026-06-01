@@ -218,6 +218,8 @@ function Login() {
         >
           <span>계정이 없으신가요?</span>
           <Link to="/signup">회원가입</Link>
+          {"\n"}
+          <Link to="/find-username">아이디 찾기</Link>
         </div>
       </div>
     </div>
