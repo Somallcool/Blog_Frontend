@@ -335,7 +335,11 @@ function BoardWrite() {
               <option value="" disabled>
                 카테고리를 선택하세요
               </option>
+              {/*관리자 전용 */}
+              {/* {user?.role === "ROLE_ADMIN" && ( */}
               <option value="notice">공지사항</option>
+              {/* )} */}
+
               <option value="free">자유 게시판</option>
               <option value="question">질문/답변</option>
               <option value="etc">기타</option>
