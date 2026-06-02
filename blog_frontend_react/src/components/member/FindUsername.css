@@ -83,7 +83,7 @@
 
 .find-input-row input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #2c3e50;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
@@ -94,7 +94,7 @@
 
 .find-send-btn {
   padding: 10px 14px;
-  background: #2563eb;
+  background: #2c3e50;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -106,7 +106,7 @@
 }
 
 .find-send-btn:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #2c3e50;
 }
 .find-send-btn:disabled {
   background: #9ca3af;
@@ -129,7 +129,7 @@
 
 .code-input-wrap input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #2c3e50;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
@@ -181,7 +181,7 @@
 }
 
 .find-links a {
-  color: #2563eb;
+  color: #2c3e50;
   text-decoration: none;
 }
 
@@ -216,7 +216,7 @@
 .go-login-btn {
   display: inline-block;
   padding: 10px 24px;
-  background: #2563eb;
+  background: #2c3e50;
   color: #fff;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -226,5 +226,5 @@
 }
 
 .go-login-btn:hover {
-  background: #1d4ed8;
+  background: #2c3e50;
 }

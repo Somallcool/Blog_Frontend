@@ -211,6 +211,8 @@ function FindUsername() {
               <Link to="/login">로그인</Link>
               <span>·</span>
               <Link to="/signup">회원가입</Link>
+              <span>·</span>
+              <Link to="/find-password">비밀번호 찾기</Link>
             </div>
           </>
         )}
