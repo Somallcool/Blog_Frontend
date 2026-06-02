@@ -14,7 +14,6 @@ function BoardWrite() {
 
   const [formData, setFormData] = useState({
     title: "",
-    nickname: "",
     category: "",
     content: "",
   });
@@ -42,13 +41,6 @@ function BoardWrite() {
       loadBoardData(id);
     }
   }, [location]);
-
-  useEffect(() => {
-    // initializeAuth();
-    if (user?.nickname) {
-      setFormData((prev) => ({ ...prev, nickname: user.nickname }));
-    }
-  }, [user]);
 
   const showMessage = (message, type = "error") => {
     setStatusMessage(message);
@@ -88,7 +80,6 @@ function BoardWrite() {
       console.log(article.tags);
       setFormData({
         title: article.title || "",
-        nickname: article.nickname || "",
         category: article.category || "free",
         content: article.content || "",
       });
@@ -249,7 +240,6 @@ function BoardWrite() {
 
     const data = {
       title: formData.title,
-      nickname: formData.nickname,
       category: formData.category,
       content: formData.content,
       tags: tags,
@@ -311,12 +301,10 @@ function BoardWrite() {
 
           {/* 작성자 (닉네임) */}
           <div className="form-group">
-            <label htmlFor="nickname">작성자 (닉네임)</label>
+            <label>작성자 (닉네임)</label>
             <input
               type="text"
-              id="nickname"
-              name="nickname"
-              value={formData.nickname}
+              value={user?.nickname || ""}
               readOnly
               className="readonly-input"
             />
@@ -336,9 +324,9 @@ function BoardWrite() {
                 카테고리를 선택하세요
               </option>
               {/*관리자 전용 */}
-              {/* {user?.role === "ROLE_ADMIN" && ( */}
-              <option value="notice">공지사항</option>
-              {/* )} */}
+              {user?.role === "ROLE_ADMIN" && (
+                <option value="notice">공지사항</option>
+              )}
 
               <option value="free">자유 게시판</option>
               <option value="question">질문/답변</option>
