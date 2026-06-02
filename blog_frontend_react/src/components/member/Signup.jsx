@@ -38,7 +38,7 @@ function Signup() {
 
   const [statusMessage, setStatusMessage] = useState("대기중...");
   const [statusColor, setStatusColor] = useState("green");
-  const [showManualInput, setShowManualInput] = useState(true);
+  const [showManualInput, setShowManualInput] = useState(false);
 
   const pwRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z0-9!@#$%^&*]).{8,}$/;
 
@@ -499,14 +499,17 @@ function Signup() {
               value={formData.emailDomain}
               onChange={handleDomainChange}
             >
-              <option value="manual">직접입력</option>
+              <option value="" disabled selected>
+                선택하세요
+              </option>
               <option value="naver.com">naver.com</option>
               <option value="daum.net">daum.net</option>
               <option value="gmail.com">gmail.com</option>
               <option value="nate.com">nate.com</option>
+              <option value="manual">직접입력</option>
             </select>
           ) : (
-            <div id="manual-input-wrapper">
+            <>
               <input
                 type="text"
                 id="email_domain_manual"
@@ -515,14 +518,7 @@ function Signup() {
                 value={formData.emailDomainManual}
                 onChange={handleChange}
               />
-              <button
-                type="button"
-                id="toggle-select-btn"
-                onClick={toggleToSelect}
-              >
-                &#9660;
-              </button>
-            </div>
+            </>
           )}
           {/* 인증 코드 발송 버튼 */}
           {!emailVerification.verified && (

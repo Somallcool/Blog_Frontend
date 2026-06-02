@@ -145,12 +145,12 @@ body {
 }
 .signup-link a,
 .signup-link a:visited {
-  color: #007bff; /* 브라우저 기본 느낌의 깔끔한 파란색 */
+  color: #2c3e50; /* 브라우저 기본 느낌의 깔끔한 파란색 */
   text-decoration: none; /* 깔끔하게 기본 밑줄 제거 */
 }
 
 /* 마우스를 올렸을 때의 시각적 효과 (선택 사항) */
 .signup-link a:hover {
   text-decoration: underline; /* 마우스 올렸을 때 밑줄 표시 */
-  color: #0056b3; /* 살짝 진한 파란색으로 변하게 해서 클릭 유도 */
+  color: #2c3e50; /* 살짝 진한 파란색으로 변하게 해서 클릭 유도 */
 }
