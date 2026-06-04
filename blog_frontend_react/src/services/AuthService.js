@@ -1,6 +1,6 @@
 import { apiPostJson, apiGet } from "./api";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
 const LOGOUT_API_URL = `${API_BASE_URL}/logout`;
 
 export const authService = {
@@ -15,6 +15,7 @@ export const authService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
         },
         credentials: "include",
         body: JSON.stringify(credentials),

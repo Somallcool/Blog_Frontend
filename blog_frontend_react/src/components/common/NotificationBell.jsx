@@ -33,7 +33,7 @@ const NotificationBell = () => {
 
   useEffect(() => {
     const eventSource = new EventSourcePolyfill(
-      "http://localhost:8000/api/v1/notifications/subscribe",
+      "https://backward-plaster-pleading.ngrok-free.dev/api/v1/notifications/subscribe",
       {
         withCredentials: true,
         heartbeatTimeout: 3600000,

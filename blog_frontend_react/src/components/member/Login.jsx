@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./Login.css";
 import { authService } from "../../services/AuthService";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
 const KAKAO_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/kakao/url`;
 const NAVER_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/naver/url`;
 
@@ -47,6 +47,7 @@ function Login() {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
         },
         credentials: "include",
         body: JSON.stringify({
@@ -90,7 +91,11 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch(KAKAO_AUTH_START_ENDPOINT);
+      const response = await fetch(KAKAO_AUTH_START_ENDPOINT, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420", // 추가
+        },
+      });
 
       if (response.ok) {
         const result = await response.json();
@@ -116,7 +121,11 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch(NAVER_AUTH_START_ENDPOINT);
+      const response = await fetch(NAVER_AUTH_START_ENDPOINT, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420", // 추가
+        },
+      });
       if (response.ok) {
         const result = await response.json();
 

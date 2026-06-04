@@ -4,7 +4,8 @@ import NotificationBell from "./NotificationBell";
 import "./Navbar.css";
 import { useRef, useState } from "react";
 
-const LOGOUT_API_URL = "http://localhost:8000/api/v1/logout";
+const LOGOUT_API_URL =
+  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/logout";
 
 function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
