@@ -1,6 +1,6 @@
 console.log("login.js파일 로드 성공");
 
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE_URL = "/api/v1";
 const LOGIN_ENDPOINT = "/login";
 const loginForm = document.getElementById("login-form");
 const statusDiv = document.getElementById("login-status");

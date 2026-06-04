@@ -1,7 +1,6 @@
 console.log("마이페이지.js 파일 로드 성공");
 
-const MYPAGE_API_URL =
-  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/mypage";
+const MYPAGE_API_URL = "/api/v1/mypage";
 const statusDiv = document.getElementById("status-message");
 const userInfoSection = document.getElementById("user-info-section");
 

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
 
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE_URL = "/api/v1";
 
 function Signup() {
   const navigate = useNavigate();

@@ -4,8 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { api, apiGet, apiPatch, apiPostJson } from "../../services/api";
 import "./Mypage.css";
 
-const MYPAGE_API_URL =
-  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/mypage";
+const MYPAGE_API_URL = "/api/v1/mypage";
 
 //비밀번호 번경 섹션
 function PasswordChange({ onSuccess }) {
@@ -302,9 +301,11 @@ function PasswordGate({ onVerrified }) {
 }
 
 // 메인 mypage 컴포넌트
-const MENU = [
+const getMenu = (provider) => [
   { id: "info", label: "회원 정보", group: null },
-  { id: "password", label: "비밀번호 변경", group: "정보 수정" },
+  ...(provider === "local"
+    ? [{ id: "password", label: "비밀번호 변경", group: "정보 수정" }]
+    : []),
   { id: "nickname", label: "닉네임 변경", group: "정보 수정" },
   { id: "boards", label: "나의 게시물", group: null },
 ];
@@ -329,6 +330,10 @@ function Mypage() {
   }, []);
 
   if (!loading && !verified) {
+    if (userInfo?.provider != null) {
+      setVerified(true);
+      return null;
+    }
     return <PasswordGate onVerrified={() => setVerified(true)} />;
   }
 
@@ -355,10 +360,11 @@ function Mypage() {
 
   //사이드바 그룹 렌더링
   const renderSidebar = () => {
+    const menu = getMenu(userInfo?.provider);
     const grouped = [];
     let currentGroup = null;
 
-    MENU.forEach((item) => {
+    menu.forEach((item) => {
       if (item.group && item.group !== currentGroup) {
         currentGroup = item.group;
         grouped.push({ type: "group", label: item.group });
