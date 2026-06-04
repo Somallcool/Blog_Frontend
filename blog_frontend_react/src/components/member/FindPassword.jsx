@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API_BASE = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE = "/api/v1";
 
 export default function FindPassword() {
   const [form, setForm] = useState({ username: "", email: "" });

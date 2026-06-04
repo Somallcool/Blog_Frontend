@@ -1,7 +1,7 @@
 console.log("signup.js 파일 로드 성공");
 
 const SIGNUP_ENDPOINT = "/member";
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE_URL = "/api/v1";
 const signupForm = document.getElementById("signup-form");
 const statusDiv = document.getElementById("status");
 

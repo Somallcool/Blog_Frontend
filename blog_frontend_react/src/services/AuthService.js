@@ -1,6 +1,6 @@
 import { apiPostJson, apiGet } from "./api";
 
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE_URL = "/api/v1";
 const LOGOUT_API_URL = `${API_BASE_URL}/logout`;
 
 export const authService = {

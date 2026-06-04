@@ -1,7 +1,7 @@
 // app.js (Vanilla JS)
 
 // 백엔드 서버 주소. 포트까지만 지정합니다.
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev";
+const API_BASE_URL = "";
 const API_V1_PATH = "/api/v1"; // 모든 API 요청에 사용될 기본 경로
 
 // ⭐ 수정된 부분: 로그인 기능을 구현하지 않은 상태이므로 토큰을 보내지 않음

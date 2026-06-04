@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./Login.css";
 import { authService } from "../../services/AuthService";
 
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
+const API_BASE_URL = "/api/v1";
 const KAKAO_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/kakao/url`;
 const NAVER_AUTH_START_ENDPOINT = `${API_BASE_URL}/oauth/naver/url`;
 
@@ -206,7 +206,7 @@ function Login() {
             className="social-login-btn"
             onClick={handleKakaoLogin}
           >
-            <img src="image//kakao_login_medium.png" alt="카카오 로그인 버튼" />
+            <img src="image/kakao_login_medium.png" alt="카카오 로그인 버튼" />
           </a>
           <a
             id="google-login-btn"

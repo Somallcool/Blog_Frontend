@@ -1,7 +1,6 @@
 console.log("네이버 로그인.js 파일 로드 성공");
 
-const NAVER_AUTH_START_ENDPOINT =
-  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/oauth/naver/url";
+const NAVER_AUTH_START_ENDPOINT = "/api/v1/oauth/naver/url";
 
 const naverLoginbtn = document.getElementById("naver-login-btn");
 

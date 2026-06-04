@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev";
+const API_BASE_URL = "";
 const API_V1_PATH = "/api/v1";
 
 export const api = axios.create({

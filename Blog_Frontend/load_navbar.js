@@ -1,7 +1,6 @@
 console.log("load_navbar.js 파일 로드 성공");
 
-const LOGOUT_API_URL =
-  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/logout";
+const LOGOUT_API_URL = "/api/v1/logout";
 
 // [수정] 로그아웃 버튼 클릭 시 서버에 쿠키 삭제 요청을 보냅니다.
 function handleLogout(event) {
