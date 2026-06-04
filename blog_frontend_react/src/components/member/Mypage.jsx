@@ -4,7 +4,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { api, apiGet, apiPatch, apiPostJson } from "../../services/api";
 import "./Mypage.css";
 
-const MYPAGE_API_URL = "http://localhost:8000/api/v1/mypage";
+const MYPAGE_API_URL =
+  "https://backward-plaster-pleading.ngrok-free.dev/api/v1/mypage";
 
 //비밀번호 번경 섹션
 function PasswordChange({ onSuccess }) {

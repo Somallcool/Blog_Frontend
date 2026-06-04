@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-const API_BASE = "http://localhost:8000/api/v1";
+const API_BASE = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
 
 const PW_REGEX =
   /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,100}$/;

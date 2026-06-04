@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./FindUsername.css";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev/api/v1";
 
 function FindUsername() {
   const [email, setEmail] = useState("");

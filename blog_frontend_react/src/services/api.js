@@ -1,12 +1,13 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "https://backward-plaster-pleading.ngrok-free.dev";
 const API_V1_PATH = "/api/v1";
 
 export const api = axios.create({
   baseURL: `${API_BASE_URL}${API_V1_PATH}`,
-  Headers: {
+  headers: {
     Accept: "application/json, text/plain, */*",
+    "ngrok-skip-browser-warning": "69420",
   },
   withCredentials: true,
 });

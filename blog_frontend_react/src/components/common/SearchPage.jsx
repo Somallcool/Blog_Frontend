@@ -68,7 +68,7 @@ const SearchPage = () => {
       isAppend ? setLoadingMore(true) : setLoading(true);
 
       try {
-        let url = `http://localhost:8000/api/v1/boards/search?size=${PAGE_SIZE}`;
+        let url = `https://backward-plaster-pleading.ngrok-free.dev/api/v1/boards/search?size=${PAGE_SIZE}`;
         if (keywordParam) url += `&keyword=${encodeURIComponent(keywordParam)}`;
         if (tagParam) url += `&tagName=${encodeURIComponent(tagParam)}`;
         if (cursor) url += `&lastBoardId=${cursor}`;
@@ -149,7 +149,7 @@ const SearchPage = () => {
 
   //     setLoading(true);
   //     try {
-  //       let url = `http://localhost:8000/api/v1/boards/search?`;
+  //       let url = `https://backward-plaster-pleading.ngrok-free.dev/api/v1/boards/search?`;
   //       if (keywordParam) url += `keyword=${encodeURIComponent(keywordParam)}`;
   //       if (tagParam) url += `tag=${encodeURIComponent(tagParam)}`;
 
